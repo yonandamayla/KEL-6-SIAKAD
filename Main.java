@@ -194,15 +194,13 @@ public class Main {
                     switch (inputMenu) {
                         case 1: 
                             // ini update data
-                            Scanner input01 = new Scanner(System.in);
-
                             // Menampilkan pilihan pengguna yang data-nya bisa diubah
-                            System.out.println("Pilih pengguna untuk memperbarui data:");
+                            System.out.println("Pilih pengguna mahasiswa untuk memperbarui data:");
                             for (int i = 2; i < userData.length; i++) {
                                 System.out.println((i - 1) + ". " + userData[i][0]);
                             }
 
-                            // Meminta input pilihan pengguna dari user
+                            // // Meminta input pilihan pengguna dari user
                             System.out.print("Masukkan angka pilihan: ");
                             int pilihan = input.nextInt();
 
@@ -227,8 +225,6 @@ public class Main {
                                 System.out.println("Pilihan tidak valid.");
                             }
 
-                            input01.close();
-
                             // Menampilkan data pengguna yang baru setelah diperbarui
                             System.out.println("\nData Pengguna Baru:");
                             for (String[] user : userData) {
@@ -242,6 +238,7 @@ public class Main {
                         case 2:
                             // ini cetak khs dan nilai
                             break;
+
                         case 3:
                         String [] matkul = {"CTPS", "PRAKDASPRO", "PAMB", "MTKDAS", "KTI", "DASPRO", "BING", "BINDO", "AGAMA"};
                         String [] hari = new  String [7];
@@ -295,6 +292,5 @@ public class Main {
         }
     sc.close();
     input.close();
-    }
-    
+}
 }
