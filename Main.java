@@ -74,9 +74,15 @@ public class Main {
 
             }
         }
+<<<<<<< HEAD
 
         if (isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
                           // berjalan
+=======
+        System.out.println("HALO");
+        if (!isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
+                           // berjalan
+>>>>>>> 4ab37cc9ad8e28e3a1a0137b9207c6321560fb5b
             while (true) {
                 if (isLoggedAdmin) {
                     System.out.println("====================\n");
