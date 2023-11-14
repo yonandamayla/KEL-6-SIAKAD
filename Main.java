@@ -19,7 +19,8 @@ public class Main {
                 { "D4 Teknik Informatika", "D4 Sistem Informasi Bisnis", "D2 Pengembangan Piranti Lunak Situs" },
                 { "D3 Teknik Telekomunikasi", "D3 Teknik Listrik", "D3 Teknik Elektronika","D4 Teknik Jaringan Telekomunikasi Digital", "D4 Sistem Kelistrikan", "D4 Teknik Elektronika" },
                 { "D3 Teknik Sipil", "D3 Teknologi Pertambangan", "D3 Teknologi Konstruksi Jalan Jembatan Bangunan", "D4 Manajemen Rekayasa Konstruksi", "D4 Teknologi Rekayasa Konstruksi Jalan Jembatan" } };
-
+        
+        String[][] mataKuliah = new String[9][4];
         String inputData;
         String inputAgain;
 
@@ -51,7 +52,7 @@ public class Main {
             System.out.println("----------------------------\n");
             System.out.println(" SELAMAT DATANG DI SIAKAD!    ");
             System.out.println("\n----------------------------\n");
-            System.out.println("Login Gagal! Periksa kembali username dan password anda\n");
+            System.out.println("Silahkan Login Terlebih Dahulu!");
             System.out.print("Username : ");
             username = sc.nextLine();
             System.out.print("Password : ");
@@ -74,10 +75,8 @@ public class Main {
 
             }
         }
-        if (isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
-                          // berjalan
-        if (!isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
-                           // berjalan
+
+        if (isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat berjalan
             while (true) {
                 if (isLoggedAdmin) {
                     System.out.println("====================\n");
@@ -160,6 +159,28 @@ public class Main {
                             }
                         case 2:
                             // input data mata kuliah
+                            for (int k= 0; k < mataKuliah.length; k++) {
+                                System.out.println("Masukkan data mata kuliah ke-" + (k + 1));
+                                System.out.print("Masukkan Nama Mata Kuliah : ");
+                                mataKuliah[k][0] = sc.nextLine();
+                                System.out.print("Masukkan Semester         : ");
+                                mataKuliah[k][1] = sc.nextLine();
+                                System.out.print("Masukkan SKS Mata Kuliah  : ");
+                                mataKuliah[k][2] = sc.nextLine();
+                                System.out.print("Masukkan Dosen Pengampu   : ");
+                                mataKuliah[k][3] = sc.nextLine();
+                                System.out.println();
+                            }
+                    
+                            System.out.println("\nData mata kuliah yang telah diinput:");
+                            System.out.println();
+                            for (int l = 0; l < mataKuliah.length; l++) {
+                                System.out.println("Nama Mata Kuliah    : " + mataKuliah[l][0]);
+                                System.out.println("Semester            : " + mataKuliah[l][1]);
+                                System.out.println("SKS mata kuliah     : " + mataKuliah[l][2]);
+                                System.out.println("Dosen Pengampu      : " + mataKuliah[l][3]);
+                                System.out.println("====================================");
+                            }
                             break;
 
                         case 3:
@@ -342,5 +363,4 @@ public class Main {
         System.out.println(""); 
         }
     } 
-}
 }
