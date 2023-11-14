@@ -48,7 +48,7 @@ public class Main {
                 break;
             }
         }
-
+        System.out.println("HALO");
         if (!isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
                            // berjalan
             while (true) {
