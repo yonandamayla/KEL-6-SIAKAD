@@ -45,7 +45,6 @@ public class Main {
                         "D4 Teknik Jaringan Telekomunikasi Digital", "D4 Sistem Kelistrikan", "D4 Teknik Elektronika" },
                 { "D3 Teknik Sipil", "D3 Teknologi Pertambangan", "D3 Teknologi Konstruksi Jalan Jembatan Bangunan",
                         "D4 Manajemen Rekayasa Konstruksi", "D4 Teknologi Rekayasa Konstruksi Jalan Jembatan" } };
-        
 
         String[][] mataKuliah = new String[9][4];
         String inputData;
@@ -143,7 +142,7 @@ public class Main {
                                 System.out.print("Apakah anda ingin melanjutkan input data mahasiswa lain? (y/t) : ");
                                 inputData = sc.nextLine();
 
-                            } while (inputData.equalsIgnoreCase("y"));  
+                            } while (inputData.equalsIgnoreCase("y"));
                             for (int j = 0; j < dataMahasiswa.length; j++) {
                                 if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty()) {
                                     System.out.println(
@@ -208,6 +207,96 @@ public class Main {
 
                         case 3:
                             // cetak khs dan nilai
+                            Scanner scanner = new Scanner(System.in);
+                            boolean inputLagi = true;
+
+                            // Input data mahasiswa
+                            String namaMahasiswa, nim, ttl;
+                            System.out.print("Masukkan Nama Mahasiswa: ");
+                            namaMahasiswa = scanner.nextLine();
+                            System.out.print("Masukkan NIM Mahasiswa: ");
+                            nim = scanner.nextLine();
+                            System.out.print("Masukkan Tempat, Tanggal Lahir: ");
+                            ttl = scanner.nextLine();
+
+                            // Input jumlah mata kuliah
+                            System.out.print("Masukkan Jumlah Mata Kuliah: ");
+                            int jumlahMataKuliah = scanner.nextInt();
+                            System.out.println("------");
+
+                            // Inisialisasi array nilaiMataKuliah
+                            String[] namaMatkul = new String[jumlahMataKuliah];
+                            int[] sksMatkul = new int[jumlahMataKuliah];
+                            int[] jamMatkul = new int[jumlahMataKuliah];
+                            String[] nilaiMatkulHuruf = new String[jumlahMataKuliah];
+                            double[] nilaiMatkulAngka = new double[jumlahMataKuliah];
+
+                            do {
+
+                                // Input nilai mata kuliah
+                                for (int k = 0; k < jumlahMataKuliah; k++) {
+                                    scanner.nextLine(); // Membersihkan buffer
+                                    System.out.print("Masukkan Nama Mata Kuliah ke-" + (k + 1) + ": ");
+                                    namaMatkul[k] = scanner.nextLine();
+                                    System.out.print("Masukkan SKS Mata Kuliah ke-" + (k + 1) + ": ");
+                                    sksMatkul[k] = scanner.nextInt();
+                                    System.out.print("Masukkan Jam Mata Kuliah ke-" + (k + 1) + ": ");
+                                    jamMatkul[k] = scanner.nextInt();
+                                    System.out.print("Masukkan Nilai Mata Kuliah ke-" + (k + 1) + ": ");
+                                    nilaiMatkulHuruf[k] = scanner.next().toUpperCase(); // Konversi ke huruf besar
+                                    nilaiMatkulAngka[k] = 0.0;
+
+                                    // Loop untuk konversi nilai huruf ke angka
+                                    if (nilaiMatkulHuruf[k].equals("A")) {
+                                        nilaiMatkulAngka[k] = 4.0;
+                                    } else if (nilaiMatkulHuruf[k].equals("B+")) {
+                                        nilaiMatkulAngka[k] = 3.5;
+                                    } else if (nilaiMatkulHuruf[k].equals("B")) {
+                                        nilaiMatkulAngka[k] = 3.0;
+                                    } else if (nilaiMatkulHuruf[k].equals("C+")) {
+                                        nilaiMatkulAngka[k] = 2.5;
+                                    } else if (nilaiMatkulHuruf[k].equals("C")) {
+                                        nilaiMatkulAngka[k] = 2.0;
+                                    } else {
+                                        nilaiMatkulAngka[k] = 0.0;
+                                    }
+
+                                    System.out.println("------");
+                                }
+                                System.out.println();
+                                // Cetak KHS
+                                System.out.println("==========================");
+                                System.out.println("Kartu Hasil Studi (KHS)");
+                                System.out.println("==========================");
+                                System.out.println("Nama: " + namaMahasiswa);
+                                System.out.println("NIM: " + nim);
+                                System.out.println("TTL: " + ttl);
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("Mata Kuliah\tSKS\tJam\tNilai");
+                                System.out.println("-----------------------------------------------");
+
+                                double totalNilai = 0;
+                                int totalSKS = 0;
+
+                                for (int k = 0; k < namaMatkul.length; k++) {
+                                    System.out.printf("%-15s\t%d\t%d\t%s%n", namaMatkul[k], sksMatkul[k], jamMatkul[k],
+                                            nilaiMatkulHuruf[k]);
+                                    totalNilai += nilaiMatkulAngka[k] * sksMatkul[k];
+                                    totalSKS += sksMatkul[k];
+                                }
+
+                                double ipk = totalNilai / totalSKS;
+                                System.out.println("-----------------------------------------------");
+                                System.out.printf("IPK\t%.2f%n", ipk);
+
+                                System.out.println();
+
+                                System.out.print("Apakah Anda ingin menginput KHS lain? (y/n): ");
+                                String pilihan = scanner.next();
+                                inputLagi = pilihan.equalsIgnoreCase("y");
+
+                            } while (inputLagi);
+                            scanner.close();
                             break;
 
                         case 4:
@@ -294,7 +383,7 @@ public class Main {
                     break;
 
                 } else if (isLoggedMahasiswa) {
-                    System.out.println(ANSI_YELLOW + "======================================"     );
+                    System.out.println(ANSI_YELLOW + "======================================");
                     System.out.println(ANSI_YELLOW + "|            HALAMAN MAHASISWA            |");
                     System.out.println(ANSI_YELLOW + "======================================" + ANSI_RESET);
                     System.out.println("Pilihan Menu : ");
@@ -350,6 +439,7 @@ public class Main {
 
                         case 2:
                             // ini cetak khs dan nilai
+                            
                             break;
 
                         case 3:
