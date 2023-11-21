@@ -47,7 +47,9 @@ public class Main {
                         "D4 Manajemen Rekayasa Konstruksi", "D4 Teknologi Rekayasa Konstruksi Jalan Jembatan" } };
         
 
-        String[][] mataKuliah = new String[9][4];
+        int jumlahMataKuliah = 9;
+        String[][] mataKuliah = new String[jumlahMataKuliah][4];
+        boolean inginInputLagi = true;
         String inputData;
         String inputAgain;
 
@@ -144,18 +146,23 @@ public class Main {
                                 inputData = sc.nextLine();
 
                             } while (inputData.equalsIgnoreCase("y"));  
-                            for (int j = 0; j < dataMahasiswa.length; j++) {
-                                if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty()) {
-                                    System.out.println(
-                                            "----------------------------------------------------------------------------");
-                                    System.out.println("\nBerikut adalah daftar mahasiswa yang berhasil terinput : ");
-                                    System.out.println("Mahasiswa ke-" + (j + 1) + ":");
-                                    System.out.println("Nama        : " + dataMahasiswa[j][0]);
-                                    System.out.println("NIM         : " + dataMahasiswa[j][1]);
-                                    System.out.println("Jurusan     : " + dataMahasiswa[j][2]);
-                                    System.out.println("Prodi       : " + dataMahasiswa[j][3]);
+                            System.out.println("\nDaftar mahasiswa yang berhasil terinput:");
+                            System.out.println("=====================================================================================================");
+                            System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-30s |%n",
+                                    "No", "Nama", "NIM", "Jurusan", "Program Studi");
+                            System.out.println("=====================================================================================================");
+
+                            for (int j = 0; j < i; j++) {
+                                if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
+                                        dataMahasiswa[j][1] != null && !dataMahasiswa[j][1].isEmpty() &&
+                                        dataMahasiswa[j][2] != null && !dataMahasiswa[j][2].isEmpty() &&
+                                        dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty()) {
+                                    System.out.printf("| %-4d | %-20s | %-12s | %-20s | %-30s |%n",
+                                            (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
+                                            dataMahasiswa[j][2], dataMahasiswa[j][3]);
                                 }
                             }
+                            System.out.println("=====================================================================================================");
                             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
                             char ulang = sc.next().charAt(0);
                             if (ulang == 't') {
@@ -182,29 +189,64 @@ public class Main {
                             }
                         case 2:
                             // input data mata kuliah
-                            for (int k = 0; k < mataKuliah.length; k++) {
-                                System.out.println("Masukkan data mata kuliah ke-" + (k + 1));
-                                System.out.print("Masukkan Nama Mata Kuliah : ");
-                                mataKuliah[k][0] = sc.nextLine();
-                                System.out.print("Masukkan Semester         : ");
-                                mataKuliah[k][1] = sc.nextLine();
-                                System.out.print("Masukkan SKS Mata Kuliah  : ");
-                                mataKuliah[k][2] = sc.nextLine();
-                                System.out.print("Masukkan Dosen Pengampu   : ");
-                                mataKuliah[k][3] = sc.nextLine();
-                                System.out.println();
+                            while (inginInputLagi) {
+                                for (int k = 0; k < mataKuliah.length; k++) {
+                                    System.out.println("Masukkan data mata kuliah ke-" + (k + 1));
+                                    System.out.print("Masukkan Nama Mata Kuliah : ");
+                                    String namaMataKuliah = sc.nextLine();
+                                    if (namaMataKuliah.isEmpty()) {
+                                        break;
+                                    }
+                                    mataKuliah[k][0] = namaMataKuliah;
+                    
+                                    System.out.print("Masukkan Semester         : ");
+                                    mataKuliah[k][1] = sc.nextLine();
+                    
+                                    System.out.print("Masukkan SKS Mata Kuliah  : ");
+                                    mataKuliah[k][2] = sc.nextLine();
+                    
+                                    System.out.print("Masukkan Dosen Pengampu   : ");
+                                    mataKuliah[k][3] = sc.nextLine();
+                    
+                                    System.out.println();
+                    
+                                    if (k == jumlahMataKuliah - 1) {
+                                        System.out.println("Jumlah mata kuliah sudah mencapai batas maksimum (9).");
+                                        inginInputLagi = false;
+                                        break;
+                                    }
+                    
+                                    System.out.print("Apakah ingin menginput mata kuliah lagi? (y/n): ");
+                                    String jawaban = sc.nextLine();
+                                    if (!jawaban.equalsIgnoreCase("y")) {
+                                        inginInputLagi = false;
+                                        break;
+                                    }
+                                }
                             }
-
+                    
                             System.out.println("\nData mata kuliah yang telah diinput:");
-                            System.out.println();
-                            for (int l = 0; l < mataKuliah.length; l++) {
-                                System.out.println("Nama Mata Kuliah    : " + mataKuliah[l][0]);
-                                System.out.println("Semester            : " + mataKuliah[l][1]);
-                                System.out.println("SKS mata kuliah     : " + mataKuliah[l][2]);
-                                System.out.println("Dosen Pengampu      : " + mataKuliah[l][3]);
-                                System.out.println("====================================");
+                            System.out.println("===============================================================");
+                            System.out.println("| No | Nama Mata Kuliah      | Semester | SKS | Dosen Pengampu |");
+                            System.out.println("===============================================================");
+                                boolean adaData = false;
+                                    for (int l = 0; l < mataKuliah.length; l++) {
+                                        if (mataKuliah[l][0] != null) {
+                                            adaData = true;
+                            System.out.printf("| %-2d | %-21s | %-8s | %-3s | %-14s |%n", l + 1,
+                                    mataKuliah[l][0], (mataKuliah[l][1] != null ? mataKuliah[l][1] : "-"),
+                                    (mataKuliah[l][2] != null ? mataKuliah[l][2] : "-"),
+                                    (mataKuliah[l][3] != null ? mataKuliah[l][3] : "-"));
+                                        } else {
+                                    break;
+                                        }
+                                    }
+                            System.out.println("===============================================================");
+                    
+                    
+                            if (!adaData) {
+                                System.out.println("Belum ada data mata kuliah yang diinput.");
                             }
-                            break;
 
                         case 3:
                             // cetak khs dan nilai
