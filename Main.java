@@ -96,8 +96,14 @@ public class Main {
                 }
             }
         }
+<<<<<<< HEAD
 
         if (isLoggedIn) {
+=======
+        System.out.println("HALO");
+        if (!isLoggedIn) { // dikasih not supaya program isLoggedIn bernilai trus dan program dapat
+                           // berjalan
+>>>>>>> 8a35022f66347521c035e579839f6a1a801ae47f
             while (true) {
                 if (isLoggedAdmin) {
                     System.out.println(ANSI_YELLOW + "======================================");
