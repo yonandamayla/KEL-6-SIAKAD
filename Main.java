@@ -55,7 +55,10 @@ public class Main {
         String[] matkul = { "CTPS", "PRAKDASPRO", "PAMB", "MTKDAS", "KTI", "DASPRO", "BING", "BINDO", "AGAMA" };
         String[] hari = new String[7];
 
-        String username, password;
+        String username;
+        String password;
+        String previousUsername = " ";
+        String previousPassword = " ";
 
         hari[0] = "Senin";
         hari[1] = "Selasa";
@@ -146,22 +149,25 @@ public class Main {
 
                             } while (inputData.equalsIgnoreCase("y"));
                             System.out.println("\nDaftar mahasiswa yang berhasil terinput:");
-                            System.out.println("======================================================================================================");
-                            System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-30s |%n",
+                            System.out.println(
+                                    "========================================================================================================================");
+                            System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-48s |%n",
                                     "No", "Nama", "NIM", "Jurusan", "Program Studi");
-                            System.out.println("======================================================================================================");
+                            System.out.println(
+                                    "========================================================================================================================");
 
                             for (int j = 0; j < i; j++) {
                                 if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
                                         dataMahasiswa[j][1] != null && !dataMahasiswa[j][1].isEmpty() &&
                                         dataMahasiswa[j][2] != null && !dataMahasiswa[j][2].isEmpty() &&
                                         dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty()) {
-                                    System.out.printf("| %-4d | %-20s | %-12s | %-20s | %-30s |%n",
+                                    System.out.printf("| %-4d | %-20s | %-12s | %-20s | %-48s |%n",
                                             (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
                                             dataMahasiswa[j][2], dataMahasiswa[j][3]);
                                 }
                             }
-                            System.out.println("======================================================================================================");
+                            System.out.println(
+                                    "========================================================================================================================");
                             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
                             char ulang = sc.next().charAt(0);
                             if (ulang == 't') {
@@ -176,10 +182,33 @@ public class Main {
                                         System.exit(0);
                                         break;
                                     case 2:
-                                        System.out.println("Kembali ke halaman login\n");
-                                        // disini nantinya akan memasukkan username dan pw kembali untuk mengakses
-                                        // halaman user lain
-                                        break;
+                                        isLoggedIn = false;
+                                        isLoggedAdmin = false;
+                                        System.out.println(ANSI_GREEN + "======================================");
+                                        System.out.println(ANSI_GREEN + "|      SELAMAT DATANG DI SIAKAD!     |");
+                                        System.out.println(ANSI_GREEN + "======================================" + ANSI_RESET);
+                                        System.out.println("Silahkan Login Terlebih Dahulu!");
+                                        System.out.print("Username : " + previousUsername);
+                                        username = sc.next();
+                                        System.out.print("Password : " + previousPassword);
+                                        password = sc.next();
+                                        
+                                        for (int k = 0; i < userData.length; i++) {
+                                            if (userData[0][0].equals(username) && userData[0][1].equals(password)) {
+                                                isLoggedAdmin = true;
+                                                isLoggedIn = true;
+                                                break;
+                                            } else if (userData[1][0].equals(username) && userData[1][1].equals(password)) {
+                                                isLoggedDosen = true;
+                                                isLoggedIn = true;
+                                                break;
+                                            } else if (userData[i][0].equals(username) && userData[i][1].equals(password)) {
+                                                isLoggedMahasiswa = true;
+                                                isLoggedIn = true;
+                                                break;
+                                            }
+                                        }
+
 
                                     default:
                                         break;
@@ -197,24 +226,24 @@ public class Main {
                                         break;
                                     }
                                     mataKuliah[k][0] = namaMataKuliah;
-                    
+
                                     System.out.print("Masukkan Semester         : ");
                                     mataKuliah[k][1] = sc.nextLine();
-                    
+
                                     System.out.print("Masukkan SKS Mata Kuliah  : ");
                                     mataKuliah[k][2] = sc.nextLine();
-                    
+
                                     System.out.print("Masukkan Dosen Pengampu   : ");
                                     mataKuliah[k][3] = sc.nextLine();
-                    
+
                                     System.out.println();
-                    
+
                                     if (k == jumlahMataKuliah - 1) {
                                         System.out.println("Jumlah mata kuliah sudah mencapai batas maksimum (9).");
                                         inginInputLagi = false;
                                         break;
                                     }
-                    
+
                                     System.out.print("Apakah ingin menginput mata kuliah lagi? (y/n): ");
                                     String jawaban = sc.nextLine();
                                     if (!jawaban.equalsIgnoreCase("y")) {
@@ -223,29 +252,28 @@ public class Main {
                                     }
                                 }
                             }
-                    
+
                             System.out.println("\nData mata kuliah yang telah diinput:");
                             System.out.println("================================================================");
                             System.out.println("| No | Nama Mata Kuliah      | Semester | SKS | Dosen Pengampu |");
                             System.out.println("================================================================");
-                                boolean adaData = false;
-                                    for (int l = 0; l < mataKuliah.length; l++) {
-                                        if (mataKuliah[l][0] != null) {
-                                            adaData = true;
-                            System.out.printf("| %-2d | %-21s | %-8s | %-3s | %-14s |%n", l + 1,
-                                    mataKuliah[l][0], (mataKuliah[l][1] != null ? mataKuliah[l][1] : "-"),
-                                    (mataKuliah[l][2] != null ? mataKuliah[l][2] : "-"),
-                                    (mataKuliah[l][3] != null ? mataKuliah[l][3] : "-"));
-                                        } else {
+                            boolean adaData = false;
+                            for (int l = 0; l < mataKuliah.length; l++) {
+                                if (mataKuliah[l][0] != null) {
+                                    adaData = true;
+                                    System.out.printf("| %-2d | %-21s | %-8s | %-3s | %-14s |%n", l + 1,
+                                            mataKuliah[l][0], (mataKuliah[l][1] != null ? mataKuliah[l][1] : "-"),
+                                            (mataKuliah[l][2] != null ? mataKuliah[l][2] : "-"),
+                                            (mataKuliah[l][3] != null ? mataKuliah[l][3] : "-"));
+                                } else {
                                     break;
-                                        }
-                                    }
+                                }
+                            }
                             System.out.println("================================================================");
-                
+
                             if (!adaData) {
                                 System.out.println("Belum ada data mata kuliah yang diinput.");
                             }
-                         
                         case 3:
                             // cetak khs dan nilai
                             Scanner scanner = new Scanner(System.in);
@@ -354,7 +382,7 @@ public class Main {
                     System.out.println(ANSI_YELLOW + "======================================" + ANSI_RESET);
                     System.out.println("Pilihan Menu : ");
                     System.out.println("|1| Input nilai mahasiswa");
-                    System.out.println("|2|Keluar dari halaman dosen");
+                    System.out.println("|2| Keluar dari halaman dosen");
                     System.out.print("Menu yang anda pilih : ");
                     int inputMenu = sc.nextInt();
 
@@ -480,7 +508,7 @@ public class Main {
 
                         case 2:
                             // ini cetak khs dan nilai
-                            
+
                             break;
 
                         case 3:
@@ -519,8 +547,9 @@ public class Main {
                     }
                 }
             }
-        } else {
-            System.out.println("");
-        }
+        }else
+
+    {
+        System.out.println("");
     }
-}
+}}
