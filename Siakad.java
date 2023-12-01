@@ -8,8 +8,6 @@ public class Siakad {
     static Scanner sc = new Scanner(System.in);
     static String[][] userData = new String[5][6];
     static boolean isLoggedIn = true;
-    static String[] jurusan = new String[3];
-    static String[][] prodi = new String[3][6];
     static boolean isLoggedAdmin = false;
     static boolean isLoggedDosen = false;
     static boolean isLoggedMahasiswa = false;
@@ -79,7 +77,7 @@ public class Siakad {
             username = sc.nextLine();
             System.out.print("Password      : ");
             password = sc.nextLine();
-    
+
             for (i = 0; i < userData.length; i++) {
                 if (userData[0][0].equals(username) && userData[0][1].equals(password)) {
                     isLoggedAdmin = true;
@@ -96,9 +94,8 @@ public class Siakad {
                 }
             }
         } while (isLoggedIn == false);
-            return session;
-        }
-
+        return session;
+    }
 
     static void menuAdmin() {
         int inputMenu;
@@ -110,7 +107,7 @@ public class Siakad {
                     System.out.println(ANSI_YELLOW + "|            HALAMAN ADMIN            |");
                     System.out.println(ANSI_YELLOW + "======================================" + ANSI_RESET);
                     System.out.println("Pilihan Menu : ");
-                       System.out.println("|1| Input data mahasiswa");
+                    System.out.println("|1| Input data mahasiswa");
                     System.out.println("|2| Input data mata kuliah");
                     System.out.println("|3| Input KHS dan nilai");
                     System.out.println("|4| Pelaporan nilai mahasiswa");
@@ -150,27 +147,13 @@ public class Siakad {
         int i = 0;
         int j;
         String[][] dataMahasiswa = new String[4][4];
-        jurusan[0] = "Teknologi Informasi";
-        jurusan[1] = "Teknik Elektro";
-        jurusan[2] = "Teknik Sipil";
-
-        prodi[0][0] = "D4 Teknik Informatika";
-        prodi[0][1] = "D4 Sistem Informasi Bisnis";
-        prodi[0][2] = "D2 Pengembangan Piranti Lunak Situs";
-
-        prodi[1][0] = "D3 Teknik Telekomunikasi";
-        prodi[1][1] = "D3 Teknik Listrik";
-        prodi[1][2] = "D3 Teknik Elektronika";
-        prodi[1][3] = "D4 Teknik Jaringan Telekomunikasi Digital";
-        prodi[1][4] = "D4 Sistem Kelistrikan";
-        prodi[1][5] = "D4 Teknik Elektronika";
-
-        prodi[2][0] = "D3 Teknik Sipil";
-        prodi[2][1] = "D3 Teknologi Pertambangan";
-        prodi[2][2] = "D3 Teknologi Konstruksi Jalan Jembatan Bangunan";
-        prodi[2][3] = "D4 Manajemen Rekayasa Konstruksi";
-        prodi[2][4] = "D4 Teknologi Rekayasa Konstruksi Jalan Jembatan";
-
+        String[] jurusan = { "Teknologi Informasi", "Teknik Elektro", "Teknik Sipil" };
+        String[][] prodi = {
+                { "D4 Teknik Informatika", "D4 Sistem Informasi Bisnis", "D2 Pengembangan Piranti Lunak Situs" },
+                { "D3 Teknik Telekomunikasi", "D3 Teknik Listrik", "D3 Teknik Elektronika",
+                        "D4 Teknik Jaringan Telekomunikasi Digital", "D4 Sistem Kelistrikan", "D4 Teknik Elektronika" },
+                { "D3 Teknik Sipil", "D3 Teknologi Pertambangan", "D3 Teknologi Konstruksi Jalan Jembatan Bangunan",
+                        "D4 Manajemen Rekayasa Konstruksi", "D4 Teknologi Rekayasa Konstruksi Jalan Jembatan" } };
         String inputData;
 
         do {
@@ -204,24 +187,24 @@ public class Siakad {
         } while (inputData.equalsIgnoreCase("y"));
         System.out.println("\nDaftar mahasiswa yang berhasil terinput:");
         System.out.println(
-                "======================================================================================================");
-        System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-30s |%n",
+                "========================================================================================================================");
+        System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-48s |%n",
                 "No", "Nama", "NIM", "Jurusan", "Program Studi");
         System.out.println(
-                "======================================================================================================");
+                "========================================================================================================================");
 
         for (j = 0; j < i; j++) {
             if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
                     dataMahasiswa[j][1] != null && !dataMahasiswa[j][1].isEmpty() &&
                     dataMahasiswa[j][2] != null && !dataMahasiswa[j][2].isEmpty() &&
                     dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty()) {
-                System.out.printf("| %-4d | %-20s | %-12s | %-20s | %-30s |%n",
+                System.out.printf("| %-4d | %-20s | %-12s | %-20s | %-48s |%n",
                         (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
                         dataMahasiswa[j][2], dataMahasiswa[j][3]);
             }
         }
         System.out.println(
-                "======================================================================================================");
+                "========================================================================================================================");
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         char ulang = sc.next().charAt(0);
         if (ulang == 't') {
@@ -296,6 +279,7 @@ public class Siakad {
                         mataKuliah[l][0], (mataKuliah[l][1] != null ? mataKuliah[l][1] : "-"),
                         (mataKuliah[l][2] != null ? mataKuliah[l][2] : "-"),
                         (mataKuliah[l][3] != null ? mataKuliah[l][3] : "-"));
+                        break;
             } else {
                 break;
             }
