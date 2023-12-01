@@ -412,11 +412,6 @@ public class Siakad {
         isLoggedIn = false;
         System.out.print("Anda telah keluar dari halaman Admin");
 
-
-
-    static void 
-
-
     }
 
 }
