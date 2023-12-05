@@ -100,7 +100,7 @@ public class Main {
         }
 
         if (isLoggedIn) {
-            while (true) {
+            outerLoop: while (true) {
                 if (isLoggedAdmin) {
                     System.out.println(ANSI_YELLOW + "======================================");
                     System.out.println(ANSI_YELLOW + "|            HALAMAN ADMIN            |");
@@ -108,9 +108,8 @@ public class Main {
                     System.out.println("Pilihan Menu : ");
                     System.out.println("|1| Input data mahasiswa");
                     System.out.println("|2| Input data mata kuliah");
-                    System.out.println("|3| Input KHS dan nilai");
-                    System.out.println("|4| Pelaporan nilai mahasiswa");
-                    System.out.println("|5| Keluar dari halaman admin\n");
+                    System.out.println("|3| Pelaporan nilai mahasiswa");
+                    System.out.println("|4| Keluar dari halaman admin\n");
                     System.out.print("Menu yang anda pilih : ");
                     int inputMenu = sc.nextInt();
                     sc.nextLine();
@@ -169,52 +168,13 @@ public class Main {
                             System.out.println(
                                     "========================================================================================================================");
                             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
-                            char ulang = sc.next().charAt(0);
-                            if (ulang == 't') {
-                                System.out.println("1. Exit");
-                                System.out.println("2. Login kembali");
-                                System.out.print("Masukkan pilihan anda : ");
-                                int inpMenu = sc.nextInt();
-
-                                switch (inpMenu) {
-                                    case 1:
-                                        System.out.println("Anda telah logout dari halaman admin");
-                                        System.exit(0);
-                                        break;
-                                    case 2:
-                                        isLoggedIn = false;
-                                        isLoggedAdmin = false;
-                                        System.out.println(ANSI_GREEN + "======================================");
-                                        System.out.println(ANSI_GREEN + "|      SELAMAT DATANG DI SIAKAD!     |");
-                                        System.out.println(ANSI_GREEN + "======================================" + ANSI_RESET);
-                                        System.out.println("Silahkan Login Terlebih Dahulu!");
-                                        System.out.print("Username : " + previousUsername);
-                                        username = sc.next();
-                                        System.out.print("Password : " + previousPassword);
-                                        password = sc.next();
-                                        
-                                        for (int k = 0; i < userData.length; i++) {
-                                            if (userData[0][0].equals(username) && userData[0][1].equals(password)) {
-                                                isLoggedAdmin = true;
-                                                isLoggedIn = true;
-                                                break;
-                                            } else if (userData[1][0].equals(username) && userData[1][1].equals(password)) {
-                                                isLoggedDosen = true;
-                                                isLoggedIn = true;
-                                                break;
-                                            } else if (userData[i][0].equals(username) && userData[i][1].equals(password)) {
-                                                isLoggedMahasiswa = true;
-                                                isLoggedIn = true;
-                                                break;
-                                            }
-                                        }
-
-
-                                    default:
-                                        break;
-                                }
-                                break;
+                            inputAgain = sc.nextLine();
+                            if (inputAgain.equalsIgnoreCase("t")) {
+                                System.out.println("Anda telah log out");
+                                break outerLoop; // Break out of the outer loop to logout
                             }
+                            break;
+
                         case 2:
                             // input data mata kuliah
                             while (inginInputLagi) {
@@ -244,7 +204,7 @@ public class Main {
                                         break;
                                     }
 
-                                    System.out.print("Apakah ingin menginput mata kuliah lagi? (y/n): ");
+                                    System.out.print("Apakah anda ingin menginputkan mata kuliah lagi? (y/t): ");
                                     String jawaban = sc.nextLine();
                                     if (!jawaban.equalsIgnoreCase("y")) {
                                         inginInputLagi = false;
@@ -253,15 +213,18 @@ public class Main {
                                 }
                             }
 
-                            System.out.println("\nData mata kuliah yang telah diinput:");
-                            System.out.println("================================================================");
-                            System.out.println("| No | Nama Mata Kuliah      | Semester | SKS | Dosen Pengampu |");
-                            System.out.println("================================================================");
+                            System.out.println("\nData mata kuliah yang telah diinput");
+                            System.out.println(
+                                    "===========================================================================================");
+                            System.out.println(
+                                    "| No |         Nama Mata Kuliah        |  Semester | SKS |          Dosen Pengampu        |");
+                            System.out.println(
+                                    "===========================================================================================");
                             boolean adaData = false;
                             for (int l = 0; l < mataKuliah.length; l++) {
                                 if (mataKuliah[l][0] != null) {
                                     adaData = true;
-                                    System.out.printf("| %-2d | %-21s | %-8s | %-3s | %-14s |%n", l + 1,
+                                    System.out.printf("| %-2d | %-31s | %-9s | %-3s | %-30s |%n", l + 1,
                                             mataKuliah[l][0], (mataKuliah[l][1] != null ? mataKuliah[l][1] : "-"),
                                             (mataKuliah[l][2] != null ? mataKuliah[l][2] : "-"),
                                             (mataKuliah[l][3] != null ? mataKuliah[l][3] : "-"));
@@ -269,43 +232,50 @@ public class Main {
                                     break;
                                 }
                             }
-                            System.out.println("================================================================");
+                            System.out.println(
+                                    "===========================================================================================");
 
                             if (!adaData) {
                                 System.out.println("Belum ada data mata kuliah yang diinput.");
                             }
+                            System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
+                            inputAgain = sc.nextLine();
+                            if (inputAgain.equalsIgnoreCase("t")) {
+                                System.out.println("Anda telah log out");
+                                break outerLoop; // Break out of the outer loop to logout
+                            }
+                            break;
+
                         case 3:
-                            // cetak khs dan nilai
+                            // pelaporan nilai mahasiswa
                             Scanner scanner = new Scanner(System.in);
                             boolean inputLagi = true;
 
-                            // Input data mahasiswa
-                            String namaMahasiswa, nim, ttl;
-                            System.out.print("Masukkan Nama Mahasiswa: ");
-                            namaMahasiswa = scanner.nextLine();
-                            System.out.print("Masukkan NIM Mahasiswa: ");
-                            nim = scanner.nextLine();
-                            System.out.print("Masukkan Tempat, Tanggal Lahir: ");
-                            ttl = scanner.nextLine();
-
-                            // Input jumlah mata kuliah
-                            System.out.print("Masukkan Jumlah Mata Kuliah: ");
-                            int jumlahMatkul = scanner.nextInt();
-                            System.out.println("------");
-
-                            // Inisialisasi array nilaiMataKuliah
-                            String[] namaMatkul = new String[jumlahMatkul];
-                            int[] sksMatkul = new int[jumlahMatkul];
-                            int[] jamMatkul = new int[jumlahMatkul];
-                            String[] nilaiMatkulHuruf = new String[jumlahMatkul];
-                            double[] nilaiMatkulAngka = new double[jumlahMatkul];
-
                             do {
+                                // Input data mahasiswa
+                                String namaMahasiswa, nim, ttl;
+                                System.out.print("Masukkan Nama Mahasiswa: ");
+                                namaMahasiswa = scanner.next();
+                                System.out.print("Masukkan NIM Mahasiswa: ");
+                                nim = scanner.next();
+                                System.out.print("Masukkan Tempat, Tanggal Lahir: ");
+                                ttl = scanner.next();
+
+                                // Input jumlah mata kuliah
+                                System.out.print("Masukkan Jumlah Mata Kuliah: ");
+                                int jmlMataKuliah = scanner.nextInt();
+                                System.out.println("====================================");
+
+                                String[] namaMatkul = new String[jmlMataKuliah];
+                                int[] sksMatkul = new int[jmlMataKuliah];
+                                int[] jamMatkul = new int[jumlahMataKuliah];
+                                String[] nilaiMatkulHuruf = new String[jmlMataKuliah];
+                                double[] nilaiMatkulAngka = new double[jmlMataKuliah];
 
                                 // Input nilai mata kuliah
-                                for (int k = 0; k < jumlahMatkul; k++) {
-                                    scanner.nextLine(); // Membersihkan buffer
-                                    System.out.print("Masukkan Nama Mata Kuliah ke-" + (k + 1) + ": ");
+                                for (int k = 0; k < jmlMataKuliah; k++) {
+                                    scanner.nextLine();
+                                    System.out.print("\nMasukkan Nama Mata Kuliah ke-" + (k + 1) + ": ");
                                     namaMatkul[k] = scanner.nextLine();
                                     System.out.print("Masukkan SKS Mata Kuliah ke-" + (k + 1) + ": ");
                                     sksMatkul[k] = scanner.nextInt();
@@ -313,64 +283,75 @@ public class Main {
                                     jamMatkul[k] = scanner.nextInt();
                                     System.out.print("Masukkan Nilai Mata Kuliah ke-" + (k + 1) + ": ");
                                     nilaiMatkulHuruf[k] = scanner.next().toUpperCase(); // Konversi ke huruf besar
-                                    nilaiMatkulAngka[k] = 0.0;
-
-                                    // Loop untuk konversi nilai huruf ke angka
-                                    if (nilaiMatkulHuruf[k].equals("A")) {
-                                        nilaiMatkulAngka[k] = 4.0;
-                                    } else if (nilaiMatkulHuruf[k].equals("B+")) {
-                                        nilaiMatkulAngka[k] = 3.5;
-                                    } else if (nilaiMatkulHuruf[k].equals("B")) {
-                                        nilaiMatkulAngka[k] = 3.0;
-                                    } else if (nilaiMatkulHuruf[k].equals("C+")) {
-                                        nilaiMatkulAngka[k] = 2.5;
-                                    } else if (nilaiMatkulHuruf[k].equals("C")) {
-                                        nilaiMatkulAngka[k] = 2.0;
-                                    } else {
-                                        nilaiMatkulAngka[k] = 0.0;
+                                    // Konversi nilai huruf ke angka
+                                    switch (nilaiMatkulHuruf[k]) {
+                                        case "A":
+                                            nilaiMatkulAngka[k] = 4.0;
+                                            break;
+                                        case "B+":
+                                            nilaiMatkulAngka[k] = 3.5;
+                                            break;
+                                        case "B":
+                                            nilaiMatkulAngka[k] = 3.0;
+                                            break;
+                                        case "C+":
+                                            nilaiMatkulAngka[k] = 2.5;
+                                            break;
+                                        case "C":
+                                            nilaiMatkulAngka[k] = 2.0;
+                                            break;
+                                        default:
+                                            nilaiMatkulAngka[k] = 0.0;
                                     }
-
-                                    System.out.println("------");
                                 }
-                                System.out.println();
-                                // Cetak KHS
-                                System.out.println("==========================");
-                                System.out.println("Kartu Hasil Studi (KHS)");
-                                System.out.println("==========================");
-                                System.out.println("Nama: " + namaMahasiswa);
-                                System.out.println("NIM: " + nim);
-                                System.out.println("TTL: " + ttl);
-                                System.out.println("--------------------------------------");
-                                System.out.println("Mata Kuliah\tSKS\tJam\tNilai");
-                                System.out.println("--------------------------------------");
 
+                                // Cetak KHS
                                 double totalNilai = 0;
                                 int totalSKS = 0;
 
+                                System.out.println("====================================================");
+                                System.out.println("|             Kartu Hasil Studi (KHS)              |");
+                                System.out.println("====================================================");
+                                System.out.println("Nama    : " + namaMahasiswa);
+                                System.out.println("NIM     : " + nim);
+                                System.out.println("TTL     : " + ttl);
+                                System.out.println("=======================================");
+                                System.out.printf("| %-15s | %-3s | %-3s | %-5s |%n", "Mata Kuliah", "SKS", "Jam",
+                                        "Nilai");
+                                System.out.println("=======================================");
+
                                 for (int k = 0; k < namaMatkul.length; k++) {
-                                    System.out.printf("%-15s\t%d\t%d\t%s%n", namaMatkul[k], sksMatkul[k], jamMatkul[k],
+                                    System.out.printf("| %-15s | %-3d | %-3d | %-5s |%n", namaMatkul[k], sksMatkul[k],
+                                            jamMatkul[k],
                                             nilaiMatkulHuruf[k]);
                                     totalNilai += nilaiMatkulAngka[k] * sksMatkul[k];
                                     totalSKS += sksMatkul[k];
                                 }
 
                                 double ipk = totalNilai / totalSKS;
-                                System.out.println("--------------------------------------");
-                                System.out.printf("IPK\t%.2f%n", ipk);
+                                System.out.println("=======================================");
+                                System.out.printf("| %-15s | %-3s | %-3s | %-4.3f |%n", "IPK", "", "", ipk);
+                                System.out.println("=======================================");
 
                                 System.out.println();
 
-                                System.out.print("Apakah Anda ingin menginput KHS lain? (y/n): ");
+                                System.out.print("Apakah Anda ingin menginput KHS lain? (y/t): ");
                                 String pilihan = scanner.next();
                                 inputLagi = pilihan.equalsIgnoreCase("y");
 
                             } while (inputLagi);
-                            scanner.close();
+                            System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
+                            inputAgain = sc.nextLine();
+                            if (inputAgain.equalsIgnoreCase("t")) {
+                                System.out.println("Anda telah log out");
+                                break outerLoop; // Break out of the outer loop to logout
+                            }
                             break;
 
                         case 4:
-                            // pelaporan nilai mahasiswa
-                            break;
+                            // keluar dari halaman admin
+                            System.out.println("Anda telah log out");
+                            break outerLoop;
 
                         default:
                             break;
@@ -437,7 +418,7 @@ public class Main {
                                     System.out.println("Matkul tidak ditemukan");
                                 }
 
-                                System.out.print("Apakah Anda ingin menginput nilai untuk mata kuliah lain? (y/n): ");
+                                System.out.print("Apakah Anda ingin menginput nilai untuk mata kuliah lain? (y/): ");
                                 inputAgain = input.nextLine();
 
                             } while (inputAgain.equalsIgnoreCase("y"));
@@ -448,12 +429,16 @@ public class Main {
                             if (ulang == 't') {
                                 System.out.println("Anda telah log out");
                             }
+                        case 2:
+                            // keluar dari halaman dosen
+                            System.out.println("Anda telah log out");
+                            break;
                     }
                     break;
 
                 } else if (isLoggedMahasiswa) {
                     System.out.println(ANSI_YELLOW + "======================================");
-                    System.out.println(ANSI_YELLOW + "|            HALAMAN MAHASISWA            |");
+                    System.out.println(ANSI_YELLOW + "|          HALAMAN MAHASISWA         |");
                     System.out.println(ANSI_YELLOW + "======================================" + ANSI_RESET);
                     System.out.println("Pilihan Menu : ");
                     System.out.println("|1| Update data mahasiswa");
@@ -547,9 +532,10 @@ public class Main {
                     }
                 }
             }
-        }else
+        } else
 
-    {
-        System.out.println("");
+        {
+            System.out.println("");
+        }
     }
-}}
+}
