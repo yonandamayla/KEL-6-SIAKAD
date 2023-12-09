@@ -6,8 +6,7 @@ Pembedaan fitur dari tiap user akan dibedakan dari username dan password yang di
 # Halaman Admin
   1. Input data mahasiswa
   2. Input matkul mahasiswa
-  3. Input KHS dan nilai
-  4. Pelaporan nilai
+  3. Pelaporan nilai
 
 # Halaman Dosen 
   1. Input nilai mahasiswa
