@@ -350,7 +350,7 @@ public class Main {
 
                         case 4:
                             // keluar dari halaman admin
-                            System.out.println("Anda telah log out");
+                            System.out.println(ANSI_RED + "Anda telah keluar dari halaman admin" + ANSI_RESET);
                             break outerLoopAdmin;
 
                         default:
