@@ -328,8 +328,8 @@ public class Siakad {
         do {
             String[] finded = new String[1];
             System.out.println("====================================");
-            System.out.print("Masukkan Jumlah Mata Kuliah: ");
-            int jmlMataKuliah = input.nextInt();
+            // System.out.print("Masukkan Jumlah Mata Kuliah: ");
+            // int jmlMataKuliah = input.nextInt();
             System.out.print("Masukkan matkul yang akan diinputkan nilainya : ");
             String inpmatkul = input.next();
             boolean ditemukan = false;
@@ -343,16 +343,14 @@ public class Siakad {
             }
 
             if (ditemukan) {
-                System.out
-                        .println("Matkul yang ingin diinputkan nilai ditemukan: " + finded[0]);
+                System.out.println("Matkul yang ingin diinputkan nilai ditemukan: " + inpmatkul);
                 System.out.println("===============================================");
 
                 int jumlahMahasiswa;
                 do {
                     System.out.print("Masukkan jumlah mahasiswa yang ingin diinput nilai: ");
                     while (!input.hasNextInt()) {
-                        System.out
-                                .println("Input harus berupa angka. Silakan masukkan kembali.");
+                        System.out.println("Input harus berupa angka. Silakan masukkan kembali.");
                         input.next();
                     }
                     jumlahMahasiswa = input.nextInt();
@@ -373,25 +371,19 @@ public class Siakad {
                 }
 
                 // Menampilkan hasil input dalam bentuk tabel
-                String[] namaMatkul = new String[jmlMataKuliah];
-                int[] sksMatkul = new int[jmlMataKuliah];
-                int[] jamMatkul = new int[jumlahMataKuliah];
-                String[] nilaiMatkulHuruf = new String[jmlMataKuliah];
-                double[] nilaiMatkulAngka = new double[jmlMataKuliah];
-
                 System.out.println(
-                        "============================================================================");
-                System.out.println(finded[0]);
+                        "=========================================================================================");
+                System.out.println("Mata Kuliah: " + inpmatkul);
                 System.out.println(
-                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata ");
+                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata | Nilai Huruf");
                 System.out.println(
-                        "============================================================================");
+                        "=========================================================================================");
                 for (int i = 0; i < inputNilai.length; i++) {
                     double rataRata = (inputNilai[i][0] + inputNilai[i][1]) / 2.0;
+                    char nilaiHuruf = konversiNilaiHuruf(rataRata);
 
-                    System.out.printf("%-39s | %-9d | %-9d | %-8.2f\n", namaMahasiswa[i],
-                            inputNilai[i][0],
-                            inputNilai[i][1], rataRata);
+                    System.out.printf("%-39s | %-9d | %-9d | %-8.2f | %-11c\n", namaMahasiswa[i],
+                            inputNilai[i][0], inputNilai[i][1], rataRata, nilaiHuruf);
                 }
 
             } else {
@@ -430,6 +422,7 @@ public class Siakad {
     static void menuMahasiswa() {
         int inputMenu;
         if (isLoggedIn) {
+            while (!wantsToLogout) {
             if (isLoggedMahasiswa) {
                 System.out.println(ANSI_GREEN + "======================================");
                 System.out.println(ANSI_GREEN + "|          HALAMAN MAHASISWA         |");
@@ -465,6 +458,8 @@ public class Siakad {
                 }
             }
         }
+    
+            }
     }
 
     static void updateDataMhs() {
@@ -495,11 +490,11 @@ public class Siakad {
                             + ANSI_RESET);
 
             System.out.println("Keterangan : ");
-            System.out.println("0. Username");
-            System.out.println("1. Password");
+            System.out.println("1. Username");
+            System.out.println("2. Password");
             System.out.println("3. No Telepon");
             System.out.println("4. Agama");
-            System.out.println("6. Tanggal Lahir");
+            System.out.println("5. Tanggal Lahir");
             System.out.print("Masukkan data yang ingin diubah: ");
 
             int dataChoice = sc.nextInt();
@@ -548,30 +543,56 @@ public class Siakad {
     // }
 
     static void searchingMatkul() {
-        String[] matkul = { "CTPS", "PRAKDASPRO", "PAMB", "MTKDAS", "KTI", "DASPRO", "BING", "BINDO", "AGAMA" };
-        String[] hari = new String[] { "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu" };
+       String[] matkul = {"CTPS", "KTI","AGAMA", "PRAKDASPRO","BING","MTKDAS", "DASPRO", "BINDO","PAMB"};
+        String[] hari = {"Senin","Senin", "Selasa","Selasa", "Rabu", "Rabu", "Kamis", "Jum'at", "Jum'at"};
+        String[] dosen = {"Mamluatul Hani'ah, S.Kom., M.Kom.", "Ariadi Retno Tri Hayati Ririd, S.Kom., M.Kom.","Astrifidha Rahma Amalia, S.Pd., M.Pd.", "Triana Fatmawati, S.T., M.T.","Faiz Ushbah Mubarok, S.Pd., M.Pd.", "Annisa Puspa Kirana, S.Kom., M.Kom.","Triana Fatmawati, S.T., M.T.", "Zulmy Faqihuddin Putera, S.Pd., M.Pd.","Hendra Pradibta, S.E., M.Sc." };
+
         boolean inginCariLagi = true;
+
         while (inginCariLagi) {
-            System.out.println("Matkul anda adalah sebagai berikut : ");
+            System.out.println("===============================================================");
+            System.out.printf("%-15s | %-15s%n", "Mata Kuliah","Dosen Pengampu");
+            System.out.println("===============================================================");
             for (int i = 0; i < matkul.length; i++) {
-                System.out.println(matkul[i]);
+                System.out.printf("%-15s | %-15s%n", matkul[i], dosen[i]);
             }
+            System.out.println("===============================================================");
+
             System.out.print("Masukkan matkul yang ingin dicari : ");
             String inputMatkul = sc.next();
-            String hasil = " ";
+            String hasilHari = " ";
+            String hasilDosen = " ";
             boolean find = false;
+
             for (int i = 0; i < matkul.length; i++) {
                 if (matkul[i].equals(inputMatkul)) {
                     find = true;
-                    hasil = hari[i];
+                    hasilHari = hari[i];
+                    hasilDosen = dosen[i];
                     break;
                 }
             }
+
             if (find) {
-                System.out.println("Matkul yang anda cari ada di hari: " + hasil);
+                System.out.println("Matkul yang anda cari ada di hari: " + hasilHari);
+                System.out.println("Dosen Pengampu: " + hasilDosen);
             } else {
-                System.out.println(ANSI_RED + "Matkul tidak ditemukan" + ANSI_RESET);
+                System.out.println("Matkul tidak ditemukan");
             }
+
+            System.out.print("Ingin mencari matkul lagi? (ya/tidak): ");
+            String jawaban = sc.next();
+
+            if (jawaban.equalsIgnoreCase("tidak")) {
+                inginCariLagi = false;
+            }
+            
         }
+        System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
+        inputAgain = sc.next();
+        if (inputAgain.equalsIgnoreCase("t")) {
+        System.out.println(ANSI_RED + "Anda telah log out" + ANSI_RESET);
+        wantsToLogout = true;
     }
+}
 }
