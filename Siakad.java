@@ -15,7 +15,9 @@ public class Siakad {
     static boolean isLoggedMahasiswa = false;
     static boolean wantsToLogout = false;
     static String inputAgain;
-
+    
+    static int jumlahMataKuliah = 9;
+    
     public static void main(String[] args) {
         login();
         if (isLoggedAdmin) {
@@ -121,11 +123,11 @@ public class Siakad {
                             inputDataMahasiswa();
                             break;
                         case 2:
-                            inputMatkul(); 
+                            inputMatkul();
                             break;
                         case 3:
-                        // pelaporanNilai();
-                        //     break;
+                            // pelaporanNilai();
+                            // break;
                         case 4:
                             wantsToLogout = true;
                             System.out.print(ANSI_RED + "Anda telah keluar dari halaman Admin" + ANSI_RESET);
@@ -186,7 +188,8 @@ public class Siakad {
         System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-48s |%n",
                 "No", "Nama", "NIM", "Jurusan", "Program Studi");
         System.out.println(
-                "========================================================================================================================"  +ANSI_RESET);
+                "========================================================================================================================"
+                        + ANSI_RESET);
 
         for (int j = 0; j < i; j++) {
             if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
@@ -198,7 +201,9 @@ public class Siakad {
                         dataMahasiswa[j][2], dataMahasiswa[j][3]);
             }
             System.out.println(
-                    ANSI_BLUE + "========================================================================================================================" + ANSI_RESET);
+                    ANSI_BLUE
+                            + "========================================================================================================================"
+                            + ANSI_RESET);
         }
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.nextLine();
@@ -262,7 +267,8 @@ public class Siakad {
             }
         }
         System.out.println(
-                "===========================================================================================" + ANSI_RESET);
+                "==========================================================================================="
+                        + ANSI_RESET);
 
         if (!adaData) {
             System.out.println("Belum ada data mata kuliah yang diinput.");
@@ -275,8 +281,9 @@ public class Siakad {
         }
     }
 
-    static void pelaporanNilai(String namaMahasiswa, String nim, String ttl, String namaMatkul, int sksMatkul,int jamMatkul, String nilaiMatkulHuruf, double nilaiMatkulAngka) {
-    
+    static void pelaporanNilai(String namaMahasiswa, String nim, String ttl, String namaMatkul, int sksMatkul,
+            int jamMatkul, String nilaiMatkulHuruf, double nilaiMatkulAngka) {
+
     }
 
     static void menuDosen() {
@@ -295,7 +302,7 @@ public class Siakad {
 
                 switch (inputMenu) {
                     case 1:
-                        inputNilaiMhs();
+                        inputNilaiMahasiswa();
                         break;
                     case 2:
                         isLoggedDosen = false;
@@ -311,59 +318,98 @@ public class Siakad {
         }
     }
 
-    static void inputNilaiMhs() {
-        Scanner scanner = new Scanner(System.in);
-        boolean inputLagi = true;
+    static void inputNilaiMahasiswa() {
+        Scanner input = new Scanner(System.in);
+        double totalNilai = 0;
+        int totalSKS = 2;
+        int indexMK = -1;
+        String[] matkul = { "CTPS", "PRAKDASPRO", "PAMB", "MTKDAS", "KTI", "DASPRO", "BING", "BINDO", "AGAMA" };
+
         do {
-            // Input data mahasiswa
-            System.out.print("Masukkan Nama Mahasiswa: ");
-            String namaMahasiswa = scanner.next();
-            System.out.print("Masukkan NIM Mahasiswa: ");
-            String nim = scanner.next();
-            System.out.print("Masukkan Tempat, Tanggal Lahir: ");
-            String ttl = scanner.next();
-
-            // Input jumlah mata kuliah
-            System.out.print("Masukkan Jumlah Mata Kuliah: ");
-            int jmlMataKuliah = scanner.nextInt();
+            String[] finded = new String[1];
             System.out.println("====================================");
+            System.out.print("Masukkan Jumlah Mata Kuliah: ");
+            int jmlMataKuliah = input.nextInt();
+            System.out.print("Masukkan matkul yang akan diinputkan nilainya : ");
+            String inpmatkul = input.next();
+            boolean ditemukan = false;
 
-            // Input nilai mata kuliah
-            for (int k = 0; k < jmlMataKuliah; k++) {
-                scanner.nextLine();
-                System.out.print("\nMasukkan Nama Mata Kuliah ke-" + (k + 1) + ": ");
-                String namaMatkul = scanner.nextLine();
-                System.out.print("Masukkan SKS Mata Kuliah ke-" + (k + 1) + ": ");
-                int sksMatkul = scanner.nextInt();
-                System.out.print("Masukkan Jam Mata Kuliah ke-" + (k + 1) + ": ");
-                int jamMatkul = scanner.nextInt();
-                System.out.print("Masukkan Nilai Mata Kuliah ke-" + (k + 1) + ": ");
-                String nilaiMatkulHuruf= scanner.next().toUpperCase();
-                double nilaiMatkulAngka;
-                switch (nilaiMatkulHuruf) {
-                    case "A":
-                        nilaiMatkulAngka = 4.0;
-                        break;
-                    case "B+":
-                        nilaiMatkulAngka = 3.5;
-                        break;
-                    case "B":
-                        nilaiMatkulAngka = 3.0;
-                        break;
-                    case "C+":
-                        nilaiMatkulAngka = 2.5;
-                        break;
-                    case "C":
-                        nilaiMatkulAngka = 2.0;
-                        break;
-                    default:
-                        nilaiMatkulAngka = 0.0;
+            for (int i = 0; i < matkul.length; i++) {
+                if (matkul[i].equalsIgnoreCase(inpmatkul)) {
+                    ditemukan = true;
+                    finded[0] = matkul[i];
+                    break;
                 }
-                pelaporanNilai(namaMahasiswa, nim, ttl, namaMatkul, sksMatkul, jamMatkul, nilaiMatkulHuruf, nilaiMatkulAngka);
             }
-            
-        } while (inputLagi);
-        scanner.close();
+
+            if (ditemukan) {
+                System.out
+                        .println("Matkul yang ingin diinputkan nilai ditemukan: " + finded[0]);
+                System.out.println("===============================================");
+
+                int jumlahMahasiswa;
+                do {
+                    System.out.print("Masukkan jumlah mahasiswa yang ingin diinput nilai: ");
+                    while (!input.hasNextInt()) {
+                        System.out
+                                .println("Input harus berupa angka. Silakan masukkan kembali.");
+                        input.next();
+                    }
+                    jumlahMahasiswa = input.nextInt();
+                } while (jumlahMahasiswa <= 0);
+
+                int[][] inputNilai = new int[jumlahMahasiswa][2];
+                String[] namaMahasiswa = new String[jumlahMahasiswa];
+
+                for (int i = 0; i < inputNilai.length; i++) {
+                    System.out.println("Menginput nilai untuk mahasiswa ke-" + (i + 1));
+                    input.nextLine();
+                    System.out.print("Nama mahasiswa: ");
+                    namaMahasiswa[i] = input.nextLine();
+                    System.out.print("Nilai UTS: ");
+                    inputNilai[i][0] = input.nextInt();
+                    System.out.print("Nilai UAS: ");
+                    inputNilai[i][1] = input.nextInt();
+                }
+
+                // Menampilkan hasil input dalam bentuk tabel
+                String[] namaMatkul = new String[jmlMataKuliah];
+                int[] sksMatkul = new int[jmlMataKuliah];
+                int[] jamMatkul = new int[jumlahMataKuliah];
+                String[] nilaiMatkulHuruf = new String[jmlMataKuliah];
+                double[] nilaiMatkulAngka = new double[jmlMataKuliah];
+
+                System.out.println(
+                        "============================================================================");
+                System.out.println(finded[0]);
+                System.out.println(
+                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata ");
+                System.out.println(
+                        "============================================================================");
+                for (int i = 0; i < inputNilai.length; i++) {
+                    double rataRata = (inputNilai[i][0] + inputNilai[i][1]) / 2.0;
+
+                    System.out.printf("%-39s | %-9d | %-9d | %-8.2f\n", namaMahasiswa[i],
+                            inputNilai[i][0],
+                            inputNilai[i][1], rataRata);
+                }
+
+            } else {
+                System.out.println("Matkul tidak ditemukan");
+                break;
+            }
+            input.nextLine();
+            System.out
+                    .print("Apakah Anda ingin menginput nilai untuk mata kuliah lain? (y/t): ");
+            inputAgain = input.nextLine();
+
+        } while (inputAgain.equalsIgnoreCase("y"));
+        System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
+        inputAgain = sc.next();
+        if (inputAgain.equalsIgnoreCase("t")) {
+            System.out.println("Anda telah log out");
+            isLoggedDosen = false;
+        }
     }
 
     static char konversiNilaiHuruf(double rataRata) {
@@ -402,7 +448,7 @@ public class Siakad {
                         updateDataMhs();
                         break;
                     case 2:
-                        cetakKHS();
+                        // cetakKHS();
                         break;
                     case 3:
                         searchingMatkul();
@@ -423,7 +469,7 @@ public class Siakad {
 
     static void updateDataMhs() {
         System.out.println("Pilih pengguna mahasiswa untuk memperbarui data:");
-        for (int i = 2; i < userData.length; i++) { 
+        for (int i = 2; i < userData.length; i++) {
             System.out.println((i - 1) + " " + userData[i][0]);
         }
         System.out.print("Masukkan angka pilihan: ");
@@ -437,7 +483,7 @@ public class Siakad {
             System.out.println(
                     "===================================================================================================================================");
             System.out.printf("| %-18s | %-18s | %-18s | %-15s | %-10s | %-15s | %-15s | \n",
-                    "Username", "Password","NIM", "No Telepon", "Agama", "Jenis Kelamin",
+                    "Username", "Password", "NIM", "No Telepon", "Agama", "Jenis Kelamin",
                     "Tanggal Lahir");
             System.out.println(
                     "===================================================================================================================================");
@@ -445,14 +491,15 @@ public class Siakad {
                     selectedUser[0], selectedUser[1], selectedUser[2], selectedUser[3],
                     selectedUser[4], selectedUser[5], selectedUser[6]);
             System.out.println(
-                    "===================================================================================================================================" + ANSI_RESET);
+                    "==================================================================================================================================="
+                            + ANSI_RESET);
 
-                    System.out.println("Keterangan : ");
-                    System.out.println("0. Username");
-                    System.out.println("1. Password");
-                    System.out.println("3. No Telepon");
-                    System.out.println("4. Agama");
-                    System.out.println("6. Tanggal Lahir");
+            System.out.println("Keterangan : ");
+            System.out.println("0. Username");
+            System.out.println("1. Password");
+            System.out.println("3. No Telepon");
+            System.out.println("4. Agama");
+            System.out.println("6. Tanggal Lahir");
             System.out.print("Masukkan data yang ingin diubah: ");
 
             int dataChoice = sc.nextInt();
@@ -470,7 +517,7 @@ public class Siakad {
             System.out.println(ANSI_BLUE + "\nData Pengguna Baru:");
             System.out.println(
                     "===================================================================================================================================");
-            System.out.printf("| %-18s | %-18s | %-18s | %-15s | %-10s | %-15s | %-15s | \n" , "Username",
+            System.out.printf("| %-18s | %-18s | %-18s | %-15s | %-10s | %-15s | %-15s | \n", "Username",
                     "Password", "NIM", "No Telepon", "Agama", "Jenis Kelamin", "Tanggal Lahir");
             System.out.println(
                     "===================================================================================================================================");
@@ -480,7 +527,8 @@ public class Siakad {
                         userData[i][6]);
             }
             System.out.println(
-                    "===================================================================================================================================" + ANSI_RESET);
+                    "==================================================================================================================================="
+                            + ANSI_RESET);
         }
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.next();
@@ -490,44 +538,15 @@ public class Siakad {
         }
     }
 
-    static void cetakKHS() {
-        // Cetak KHS
-            // double totalNilai = 0;
-            // int totalSKS = 0;
-            // System.out.println("====================================================");
-            // System.out.println("|             Kartu Hasil Studi (KHS)              |");
-            // System.out.println("====================================================");
-            // System.out.println("Nama    : " + namaMahasiswa);
-            // System.out.println("NIM     : " + nim);
-            // System.out.println("TTL     : " + ttl);
-            // System.out.println("=======================================");
-            // System.out.printf("| %-15s | %-3s | %-3s | %-5s |%n", "Mata Kuliah", "SKS", "Jam",
-            //         "Nilai");
-            // System.out.println("=======================================");
-            // for (int k = 0; k < namaMatkul.length; k++) {
-            //     System.out.printf("| %-15s | %-3d | %-3d | %-5s |%n", namaMatkul[k], sksMatkul[k],
-            //             jamMatkul[k],
-            //             nilaiMatkulHuruf[k]);
-            //     totalNilai += nilaiMatkulAngka[k] * sksMatkul[k];
-            //     totalSKS += sksMatkul[k];
-            //     System.out.println("=======================================");
-            // }
-            // double ipk = totalNilai / totalSKS;
-            // System.out.println("IPK  " + ipk);
-            // System.out.println();
-            // System.out.print("Apakah Anda ingin menginput KHS lain? (y/t): ");
-            // String pilihan = scanner.next();
-            // inputLagi = pilihan.equalsIgnoreCase("y");
-            // System.out.println(
-            //         "========================================================================================================================");
-            // System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
-            // inputAgain = sc.nextLine();
-            // if (inputAgain.equalsIgnoreCase("t")) {
-            //     System.out.println("Anda telah log out");
-            //     break;
-            // }
+    // static void cetakKHS() {
+    // Scanner scanner = new Scanner(System.in);
+    // boolean inputLagi = true;
+    // double totalNilai = 0;
+    // int totalSKS = 0;
+    // String namaMahasiswa, nim, ttl;
 
-    }
+    // }
+
     static void searchingMatkul() {
         String[] matkul = { "CTPS", "PRAKDASPRO", "PAMB", "MTKDAS", "KTI", "DASPRO", "BING", "BINDO", "AGAMA" };
         String[] hari = new String[] { "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu" };

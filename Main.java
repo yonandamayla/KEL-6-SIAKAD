@@ -332,7 +332,7 @@ public class Main {
                                 System.out.println("=======================================");
                                 System.out.printf("| %-15s | %-3s | %-3s | %-4.3f |%n", "IPK", "", "", ipk);
                                 System.out.println("=======================================");
-
+                                
                                 System.out.println();
 
                                 System.out.print("Apakah Anda ingin menginput KHS lain? (y/t): ");
