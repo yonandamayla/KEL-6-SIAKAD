@@ -35,7 +35,7 @@ public class Main {
                 { "MahasiswaYonanda", "yonanda789", "2341760184", "082139631334", "Islam", "P", "05/05/2005" },
                 { "MahasiswaDhynar", "dhynar789", "2341760109", "081238285591", "Islam", "P", "09/09/2004" },
                 { "MahasiswaAfril", "afril789", "2341760067", "082245773455", "Islam", "L", "05/04/2005" },
-                { "MahasiswaRama", "rama789", "2341760125", "085648275713", "Islam", "L", "11/11/2004" } };
+                { "MahasiswaRama", "rama789", "2341760125", "085648275713", "Islam", "L", "11/11/2004" }};
 
         String[][] dataMahasiswa = new String[4][4];
         String[] jurusan = { "Teknologi Informasi", "Teknik Elektro", "Teknik Sipil" };
