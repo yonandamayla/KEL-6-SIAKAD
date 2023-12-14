@@ -324,6 +324,7 @@ public class Main {
                                     System.out.printf("| %-15s | %-3d | %-3d | %-5s |%n", namaMatkul[k], sksMatkul[k],
                                             jamMatkul[k],
                                             nilaiMatkulHuruf[k]);
+                                            double nilaiAngka = nilaiMatkulAngka[k];
                                     totalNilai += nilaiMatkulAngka[k] * sksMatkul[k];
                                     totalSKS += sksMatkul[k];
                                 }
