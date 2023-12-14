@@ -50,7 +50,6 @@ public class Siakad {
         String password;
         int i;
         String session = null;
-
         do {
             System.out.println(ANSI_YELLOW + "======================================");
             System.out.println(ANSI_YELLOW + "|      SELAMAT DATANG DI SIAKAD!     |");
@@ -65,15 +64,30 @@ public class Siakad {
                 if (userData[0][0].equals(username) && userData[0][1].equals(password)) {
                     isLoggedAdmin = true;
                     isLoggedIn = true;
+                    wantsToLogout = false;
                     break;
                 } else if (userData[1][0].equals(username) && userData[1][1].equals(password)) {
                     isLoggedDosen = true;
                     isLoggedIn = true;
+                    wantsToLogout = false;
                     break;
-                } else if (userData[i][0].equals(username) && userData[i][1].equals(password)) {
+                } else if (userData[2][0].equals(username) && userData[2][1].equals(password)) {
                     isLoggedMahasiswa = true;
                     isLoggedIn = true;
+                    wantsToLogout = false;
                     break;
+                } else if (userData[3][0].equals(username) && userData[3][1].equals(password)) {
+                    isLoggedMahasiswa = true;
+                    isLoggedIn = true;
+                    wantsToLogout = false;
+                } else if (userData[4][0].equals(username) && userData[4][1].equals(password)) {
+                    isLoggedMahasiswa = true;
+                    isLoggedIn = true;
+                    wantsToLogout = false;
+                } else if (userData[5][0].equals(username) && userData[5][1].equals(password)) {
+                    isLoggedMahasiswa = true;
+                    isLoggedIn = true;
+                    wantsToLogout = false;
                 }
             }
         } while (isLoggedIn == false);
@@ -109,13 +123,10 @@ public class Siakad {
                             pelaporanNilai();
                             break;
                         case 4:
-                            wantsToLogout = true;
-                            isLoggedIn = false;
-                            isLoggedAdmin = false;
-                            isLoggedDosen = false;
-                            isLoggedMahasiswa = false;
                             System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
                             System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
+                            wantsToLogout = true;
+                            isLoggedAdmin = false;
                             break;
                         case 5:
                             System.out.println(ANSI_RED + "Anda telah keluar dari program" + ANSI_RESET);
@@ -196,8 +207,10 @@ public class Siakad {
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.nextLine();
         if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println(ANSI_RED + "Anda telah log out" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
+            isLoggedAdmin = false;
         }
     }
 
@@ -264,40 +277,61 @@ public class Siakad {
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.nextLine();
         if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println(ANSI_RED + "Anda telah log out" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
+            isLoggedAdmin = false;
         }
     }
 
     static void pelaporanNilai() {
         double totalNilai = 0;
         int totalSKS = 0;
-        for (int i = 0; i < matkul.length; i++) {
-            if (inputNilai[0][i][0] == 0) { // berfungsi untuk check apakah data nilai sudah diinputkan pada matkul[i]
-                continue;
-            }
-            System.out.println("Mata Kuliah: " + matkul[i]);
-            System.out.println(
-                    "================================================================");
-            System.out.println(
-                    "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata | Nilai Huruf | IPK");
-            System.out.println(
-                    "================================================================");
-            for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
-                if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
+        do {
+            for (int i = 0; i < matkul.length; i++) {
+                if (inputNilai[0][i][0] == 0) { // berfungsi untuk check apakah data nilai sudah diinputkan pada
+                                                // matkul[i]
                     continue;
                 }
-                double rataRata = hitungRataRata(inputNilai[k][i]);
-                String nilaiHuruf = konversiNilaiHuruf(rataRata);
-                double nilaiMatkulAngka = konversiNilaiAngka(nilaiHuruf);
-                totalNilai += nilaiMatkulAngka * sksMatkul[i];
-                totalSKS += sksMatkul[i];
-                double ipk = totalNilai / totalSKS;
-                System.out.printf("%-39s | %-9d | %-9d | %-8.2f | %-12s | %-12s\n", userData[j][2],
-                        inputNilai[k][i][0], inputNilai[k][i][1], rataRata, nilaiHuruf, ipk);
-                k++;
+                System.out.println();
+                System.out.println("Mata Kuliah: " + matkul[i]);
+                System.out.println(ANSI_BLUE +
+                        "================================================================================================");
+                System.out.println(
+                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata | Nilai Huruf | IPK |");
+                System.out.println(
+                        "================================================================================================"
+                                + ANSI_RESET);
+                for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
+                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
+                        continue;
+                    }
+                    double rataRata = hitungRataRata(inputNilai[k][i]);
+                    String nilaiHuruf = konversiNilaiHuruf(rataRata);
+                    double nilaiMatkulAngka = konversiNilaiAngka(nilaiHuruf);
+                    totalNilai += nilaiMatkulAngka * sksMatkul[i];
+                    totalSKS += sksMatkul[i];
+                    double ipk = totalNilai / totalSKS;
+                    System.out.printf(ANSI_BLUE + "%-39s | %-9d | %-9d | %-9.3f | %-11s | %-3s | \n", userData[j][2],
+                            inputNilai[k][i][0], inputNilai[k][i][1], rataRata, nilaiHuruf, ipk);
+                    k++;
+                }
+                System.out.println(
+                        "================================================================================================"
+                        + ANSI_RESET);
                 System.out.println();
             }
+            System.out.print("Apakah anda ingin melanjutkan input data mahasiswa lain? (y/t) : ");
+            inputAgain = sc.nextLine();
+
+        } while (inputAgain.equalsIgnoreCase("y"));
+        System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
+        inputAgain = sc.nextLine();
+        if (inputAgain.equalsIgnoreCase("t")) {
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
+            wantsToLogout = true;
+            isLoggedAdmin = false;
         }
     }
 
@@ -321,12 +355,10 @@ public class Siakad {
                         inputNilaiMahasiswa();
                         break;
                     case 2:
-                        isLoggedIn = false;
-                        isLoggedAdmin = false;
-                        isLoggedDosen = false;
-                        isLoggedMahasiswa = false;
                         System.out.println(ANSI_RED + "Anda telah keluar dari halaman Dosen");
                         System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
+                        wantsToLogout = false;
+                        isLoggedDosen = false;
                         break;
                     case 3:
                         System.out.println(ANSI_RED + "Anda telah keluar dari program" + ANSI_RESET);
@@ -369,6 +401,9 @@ public class Siakad {
                     inputNilai[i][matkulIndex][0] = input.nextInt();
                     System.out.print("Nilai UAS: ");
                     inputNilai[i][matkulIndex][1] = input.nextInt();
+
+                    int totalNilai = inputNilai[i][matkulIndex][0] + inputNilai[i][matkulIndex][1];
+                    System.out.println(totalNilai);
                     i++;
                 }
 
@@ -392,16 +427,19 @@ public class Siakad {
                 break;
             }
             input.nextLine();
-            System.out
-                    .print("Apakah Anda ingin menginput nilai untuk mata kuliah lain? (y/t): ");
+            System.out.print("Apakah Anda ingin menginput nilai untuk mata kuliah lain? (y/t): ");
             inputAgain = input.nextLine();
 
         } while (inputAgain.equalsIgnoreCase("y"));
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
-        inputAgain = sc.next();
+        inputAgain = sc.nextLine();
         if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println("Anda telah log out");
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Dosen");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
+            isLoggedDosen = false;
+            isLoggedAdmin = true;
+            isLoggedMahasiswa = true;
         }
     }
 
@@ -458,47 +496,47 @@ public class Siakad {
     static void menuMahasiswa() {
         int inputMenu;
         if (isLoggedIn) {
-            if (isLoggedMahasiswa) {
-                System.out.println(ANSI_GREEN + "======================================");
-                System.out.println(ANSI_GREEN + "|          HALAMAN MAHASISWA         |");
-                System.out.println(ANSI_GREEN + "======================================" + ANSI_RESET);
-                System.out.println("Pilihan Menu : ");
-                System.out.println("|1| Update data mahasiswa");
-                System.out.println("|2| Cetak KHS dan Nilai");
-                System.out.println("|3| Searching Matkul");
-                System.out.println("|4| Keluar dari halaman mahasiswa");
-                System.out.println("|5| Keluar dari program\n");
-                System.out.print("Menu yang anda pilih (1-5): ");
-                inputMenu = sc.nextInt();
-                sc.nextLine();
+            while (!wantsToLogout) {
+                if (isLoggedMahasiswa) {
+                    System.out.println(ANSI_GREEN + "======================================");
+                    System.out.println(ANSI_GREEN + "|          HALAMAN MAHASISWA         |");
+                    System.out.println(ANSI_GREEN + "======================================" + ANSI_RESET);
+                    System.out.println("Pilihan Menu : ");
+                    System.out.println("|1| Update data mahasiswa");
+                    System.out.println("|2| Cetak KHS dan Nilai");
+                    System.out.println("|3| Searching Matkul");
+                    System.out.println("|4| Keluar dari halaman mahasiswa");
+                    System.out.println("|5| Keluar dari program\n");
+                    System.out.print("Menu yang anda pilih (1-5): ");
+                    inputMenu = sc.nextInt();
+                    sc.nextLine();
 
-                switch (inputMenu) {
-                    case 1:
-                        updateDataMhs();
-                        break;
-                    case 2:
-                        // cetakKHS();
-                        break;
-                    case 3:
-                        searchingMatkul();
-                        break;
-                    case 4:
-                        isLoggedIn = false;
-                        isLoggedAdmin = false;
-                        isLoggedDosen = false;
-                        isLoggedMahasiswa = false;
-                        System.out.println(ANSI_RED + "Anda telah keluar dari halaman Mahasiswa");
-                        System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
-                        break;
-                    case 5:
-                        System.out.println(ANSI_RED + "Anda telah keluar dari program" + ANSI_RESET);
-                        System.exit(0);
-                        break;
+                    switch (inputMenu) {
+                        case 1:
+                            updateDataMhs();
+                            break;
+                        case 2:
+                            // cetakKHS();
+                            break;
+                        case 3:
+                            searchingMatkul();
+                            break;
+                        case 4:
+                            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Mahasiswa");
+                            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
+                            wantsToLogout = true;
+                            isLoggedMahasiswa = false;
+                            break;
+                        case 5:
+                            System.out.println(ANSI_RED + "Anda telah keluar dari program" + ANSI_RESET);
+                            System.exit(0);
+                            break;
 
-                    default:
-                        System.out.println(ANSI_RED + "Menu yang anda pilih tidak tersedia");
-                        System.out.println("Silahkan memasukkan pilihan menu kembali" + ANSI_RESET);
-                        break;
+                        default:
+                            System.out.println(ANSI_RED + "Menu yang anda pilih tidak tersedia");
+                            System.out.println("Silahkan memasukkan pilihan menu kembali" + ANSI_RESET);
+                            break;
+                    }
                 }
             }
         }
@@ -532,14 +570,17 @@ public class Siakad {
                         "==================================================================================================================================="
                                 + ANSI_RESET);
                 System.out.println("Keterangan : ");
-                System.out.println("1. Username");
-                System.out.println("2. Password");
-                System.out.println("3. No Telepon");
-                System.out.println("4. Agama");
-                System.out.println("5. Tanggal Lahir");
+                System.out.println("0. Username");
+                System.out.println("1. Password");
+                System.out.println("2. Nama Lengkap");
+                System.out.println("3. NIM");
+                System.out.println("4. No Telepon");
+                System.out.println("5. Agama");
+                System.out.println("6. Jenis Kelamin");
+                System.out.println("7. Tanggal Lahir");
                 System.out.print("Masukkan data yang ingin diubah: ");
                 int dataChoice = sc.nextInt();
-                if (dataChoice > 0 && dataChoice <= selectedUser.length) {//
+                if (dataChoice >= 0 && dataChoice <= selectedUser.length) {
                     sc.nextLine();
                     System.out.print("Masukkan data baru : ");
                     String newData = sc.next();
@@ -566,14 +607,17 @@ public class Siakad {
                         "==================================================================================================================================="
                                 + ANSI_RESET);
             }
+            System.out.println();
             System.out.print("Apakah anda ingin mengupdate data yang lain? (y/t) = ");
             inputAgain = sc.next();
         } while (inputAgain.equalsIgnoreCase("y"));
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.next();
         if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println(ANSI_RED + "Anda telah log out" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Mahasiswa");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
+            isLoggedMahasiswa = false;
         }
     }
 
@@ -600,7 +644,7 @@ public class Siakad {
             String hasilDosen = " ";
             boolean find = false;
             for (int i = 0; i < matkul.length; i++) {
-                if (matkul[i].equals(inputMatkul)) {
+                if (matkul[i].equalsIgnoreCase(inputMatkul)) {
                     find = true;
                     hasilHari = hari[i];
                     hasilDosen = dosen[i];
@@ -613,18 +657,20 @@ public class Siakad {
             } else {
                 System.out.println("Matkul tidak ditemukan");
             }
-            System.out.print("Ingin mencari matkul lagi? (ya/tidak): ");
+            System.out.print("Ingin mencari matkul lagi? (y/t): ");
             String jawaban = sc.next();
 
-            if (jawaban.equalsIgnoreCase("tidak")) {
+            if (jawaban.equalsIgnoreCase("t")) {
                 inginCariLagi = false;
             }
         }
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.next();
         if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println(ANSI_RED + "Anda telah log out" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Mahasiswa");
+            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
+            isLoggedMahasiswa = false;
         }
     }
 }
