@@ -1,7 +1,7 @@
 # SISTEM INFORMASI AKADEMIK (SIAKAD) - KELOMPOK 6 
 
 Sistem ini menggunakan fitur tambahan berupa multi-level pengguna, di mana nantinya akan ada 3 user, yaitu : admin, dosen, dan mahasiswa.
-Pembedaan fitur dari tiap user akan dibedakan dari username dan password yang digunakan pada saat login. Berikut adalah masing-masing fitur dari tipa pengguna :
+Pembedaan fitur dari tiap user akan dibedakan dari username dan password yang digunakan pada saat login. Berikut adalah masing-masing fitur dari tipe pengguna :
 
 # Halaman Admin
   1. Input data mahasiswa
