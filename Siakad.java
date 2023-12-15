@@ -287,7 +287,7 @@ public class Siakad {
     static void pelaporanNilai() {
         double totalNilai = 0;
         int totalSKS = 0;
-        do {
+        while (true) {
             for (int i = 0; i < matkul.length; i++) {
                 if (inputNilai[0][i][0] == 0) { // berfungsi untuk check apakah data nilai sudah diinputkan pada
                                                 // matkul[i]
@@ -321,17 +321,19 @@ public class Siakad {
                         + ANSI_RESET);
                 System.out.println();
             }
-            System.out.print("Apakah anda ingin melanjutkan input data mahasiswa lain? (y/t) : ");
+            System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
             inputAgain = sc.nextLine();
-
-        } while (inputAgain.equalsIgnoreCase("y"));
-        System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
-        inputAgain = sc.nextLine();
-        if (inputAgain.equalsIgnoreCase("t")) {
-            System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
-            System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
-            wantsToLogout = true;
-            isLoggedAdmin = false;
+            if (inputAgain.equalsIgnoreCase("t")) {
+                System.out.println(ANSI_RED + "Anda telah keluar dari halaman Admin");
+                System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
+                wantsToLogout = true;
+                isLoggedAdmin = false;
+                break;
+            } else {
+                wantsToLogout = false;
+                isLoggedAdmin = true;
+                break;
+            }
         }
     }
 
