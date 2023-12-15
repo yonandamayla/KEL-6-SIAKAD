@@ -33,6 +33,8 @@ public class Siakad {
     static String[] namaMahasiswa = new String[jumlahMahasiswa];
     static int[] sksMatkul = { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
     static int pelaporanNilai;
+    static String username;
+    static String password;
 
     public static void main(String[] args) {
         while (true) {
@@ -45,7 +47,7 @@ public class Siakad {
                 menuMahasiswa();
             }
         }
-    } 
+    }
 
     static String login() {
         String username;
@@ -73,23 +75,17 @@ public class Siakad {
                     isLoggedIn = true;
                     wantsToLogout = false;
                     break;
-                } else if (userData[2][0].equals(username) && userData[2][1].equals(password)) {
+                }
+            }
+            for (i = 2; i < userData.length; i++) {
+                if (userData[i][0].equals(username) && userData[i][1].equals(password)) {
+                    isLoggedAdmin = false;
+                    isLoggedDosen = false;
                     isLoggedMahasiswa = true;
                     isLoggedIn = true;
                     wantsToLogout = false;
+                    session = "mahasiswa";
                     break;
-                } else if (userData[3][0].equals(username) && userData[3][1].equals(password)) {
-                    isLoggedMahasiswa = true;
-                    isLoggedIn = true;
-                    wantsToLogout = false;
-                } else if (userData[4][0].equals(username) && userData[4][1].equals(password)) {
-                    isLoggedMahasiswa = true;
-                    isLoggedIn = true;
-                    wantsToLogout = false;
-                } else if (userData[5][0].equals(username) && userData[5][1].equals(password)) {
-                    isLoggedMahasiswa = true;
-                    isLoggedIn = true;
-                    wantsToLogout = false;
                 }
             }
         } while (isLoggedIn == false);
@@ -518,7 +514,7 @@ public class Siakad {
                             updateDataMhs();
                             break;
                         case 2:
-                            cetakKHS();
+                            cetakKHS(username, password);
                             break;
                         case 3:
                             searchingMatkul();
@@ -623,8 +619,80 @@ public class Siakad {
         }
     }
 
-    static void cetakKHS() {
+    static void cetakKHS(String username, String password) {
+        int indeksMahasiswa = 2;
+        // mengambil indeks mahasiswa dari data user
+        for (int i = 2; i < userData.length; i++) {
+            if (userData[i][0].equalsIgnoreCase(username) && userData[i][1].equals(password)) {
+                indeksMahasiswa = i;
+                break;
+            }
+        }
 
+        // mengecek apakah indeks mahasiswa ditemukan
+        if (indeksMahasiswa < 2) {
+            System.out.println("Data mahasiswa tidak ditemukan");
+            return;
+        }
+        
+        if (indeksMahasiswa >= 2 && userData[indeksMahasiswa].length == 8) {
+            System.out.println(
+                    "========================================================================================");
+            System.out.println(
+                    "|                                   Kartu Hasil Studi (KHS                             |");
+            System.out.println(
+                    "========================================================================================");
+            System.out.println("Nama            : " +
+                    userData[indeksMahasiswa][2]);
+            System.out.println("NIM             : " + userData[indeksMahasiswa][3]);
+            System.out.println("Jenis Kelamin   : "
+                    + (userData[indeksMahasiswa][6].equalsIgnoreCase("L") ? "Laki-laki" : "Perempuan"));
+            System.out.println("Tanggal Lahir   : " + userData[indeksMahasiswa][7]);
+            System.out.println(
+                    "========================================================================================");
+
+            // Cetak header untuk tabel KHS
+            System.out.printf("%-30s | %-9s | %-9s | %-8s | %-10s | %-3s |\n",
+                    "Mata Kuliah", "Nilai UTS", "Nilai UAS", "Rata-rata", "Nilai Huruf", "SKS");
+            System.out.println(
+                    "========================================================================================");
+
+            // Iterasi melalui setiap mata kuliah
+            for (int i = 0; i < matkul.length; i++) {
+                double rataRata = hitungRataRata(inputNilai[indeksMahasiswa - 2][i]);
+                String nilaiHuruf = konversiNilaiHuruf(rataRata);
+
+                // Cetak detail mata kuliah untuk KHS
+                System.out.printf("%-30s | %-9d | %-9d | %-9.2f | %-11s | %-3d |\n",
+                        matkul[i],
+                        inputNilai[indeksMahasiswa - 2][i][0], inputNilai[indeksMahasiswa - 2][i][1],
+                        rataRata,
+                        nilaiHuruf,
+                        sksMatkul[i]);
+            }
+
+            // Hitung dan cetak IPK
+            double totalNilai = 0;
+            int totalSKS = 0;
+            for (int i = 0; i < matkul.length; i++) {
+                if (inputNilai[indeksMahasiswa - 2][i][0] != 0) {
+                    totalNilai += konversiNilaiAngka(
+                            konversiNilaiHuruf(hitungRataRata(inputNilai[indeksMahasiswa - 2][i])))
+                            * sksMatkul[i];
+                    totalSKS += sksMatkul[i];
+                }
+            }
+            double ipk = totalSKS > 0 ? totalNilai / totalSKS : 0;
+
+            System.out
+                    .println("=======================================================================================");
+            System.out.printf("Total SKS: %d\n", totalSKS);
+            System.out.printf("IPK: %.3f\n", ipk);
+            System.out
+                    .println("=======================================================================================");
+        } else {
+            System.out.println("Data mahasiswa tidak ditemukan");
+        }
     }
 
     static void searchingMatkul() {
