@@ -19,6 +19,7 @@ public class Siakad {
                     "05/04/2005" },
             { "MahasiswaRama", "rama789", "Ramadan Maulana", "2341760125", "085648275713", "Islam", "L", "11/11/2004" }
     };
+
     static boolean isLoggedIn = false;
     static boolean isLoggedAdmin = false;
     static boolean isLoggedDosen = false;
@@ -31,6 +32,7 @@ public class Siakad {
     static int[][][] inputNilai = new int[jumlahMahasiswa][matkul.length][2];
     static String[] namaMahasiswa = new String[jumlahMahasiswa];
     static int[] sksMatkul = { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+    static int pelaporanNilai;
 
     public static void main(String[] args) {
         while (true) {
@@ -43,7 +45,7 @@ public class Siakad {
                 menuMahasiswa();
             }
         }
-    }
+    } 
 
     static String login() {
         String username;
@@ -318,7 +320,7 @@ public class Siakad {
                 }
                 System.out.println(
                         "================================================================================================"
-                        + ANSI_RESET);
+                                + ANSI_RESET);
                 System.out.println();
             }
             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
@@ -380,7 +382,7 @@ public class Siakad {
         Scanner input = new Scanner(System.in);
         do {
             int matkulIndex = -1;
-            System.out.println("====================================");
+            System.out.println("==============================================");
             System.out.print("Masukkan matkul yang akan diinputkan nilainya : ");
             String inputMatkul = input.next();
             for (int i = 0, j = 0; i < matkul.length; i++) {
@@ -405,7 +407,7 @@ public class Siakad {
                     inputNilai[i][matkulIndex][1] = input.nextInt();
 
                     int totalNilai = inputNilai[i][matkulIndex][0] + inputNilai[i][matkulIndex][1];
-                    System.out.println(totalNilai);
+                    System.out.println();
                     i++;
                 }
 
@@ -440,8 +442,6 @@ public class Siakad {
             System.out.println("Silahkan masukkan username dan password kembali\n" + ANSI_RESET);
             wantsToLogout = true;
             isLoggedDosen = false;
-            isLoggedAdmin = true;
-            isLoggedMahasiswa = true;
         }
     }
 
@@ -518,7 +518,7 @@ public class Siakad {
                             updateDataMhs();
                             break;
                         case 2:
-                            // cetakKHS();
+                            cetakKHS();
                             break;
                         case 3:
                             searchingMatkul();
@@ -621,6 +621,10 @@ public class Siakad {
             wantsToLogout = true;
             isLoggedMahasiswa = false;
         }
+    }
+
+    static void cetakKHS() {
+
     }
 
     static void searchingMatkul() {
