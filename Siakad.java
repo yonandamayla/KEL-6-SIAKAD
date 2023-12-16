@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Siakad {
@@ -33,6 +34,7 @@ public class Siakad {
     static String[] namaMahasiswa = new String[jumlahMahasiswa];
     static int[] sksMatkul = { 2, 2, 2, 2, 2, 2, 2, 2, 2 };
     static int pelaporanNilai;
+    static int indexUser;
     static String username;
     static String password;
 
@@ -85,6 +87,7 @@ public class Siakad {
                     isLoggedIn = true;
                     wantsToLogout = false;
                     session = "mahasiswa";
+                    indexUser = i;
                     break;
                 }
             }
@@ -180,28 +183,40 @@ public class Siakad {
             inputData = sc.nextLine();
 
         } while (inputData.equalsIgnoreCase("y"));
-        System.out.println(ANSI_BLUE + "\nDaftar mahasiswa yang berhasil terinput:");
-        System.out.println(
-                "========================================================================================================================");
-        System.out.printf("| %-4s | %-20s | %-12s | %-20s | %-48s |%n",
+
+        // Bubble sort based on names (dataMahasiswa[i][0])
+        for (int k = 0; k < i - 1; k++) {
+            for (int j = 0; j < i - k - 1; j++) {
+                if (dataMahasiswa[j][0].compareTo(dataMahasiswa[j + 1][0]) > 0) {
+                    // Swap
+                    String[] temp = dataMahasiswa[j];
+                    dataMahasiswa[j] = dataMahasiswa[j + 1];
+                    dataMahasiswa[j + 1] = temp;
+                }
+            }
+        }
+
+        System.out.println("Daftar mahasiswa yang berhasil terinput:");
+        System.out.println(ANSI_BLUE
+                + "========================================================================================================================================");
+        System.out.printf("| %-4s | %-37s | %-12s | %-20s | %-48s |%n",
                 "No", "Nama", "NIM", "Jurusan", "Program Studi");
-        System.out.println(
-                "========================================================================================================================"
-                        + ANSI_RESET);
+        System.out.println(ANSI_BLUE
+                + "========================================================================================================================================");
 
         for (int j = 0; j < i; j++) {
             if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
                     dataMahasiswa[j][1] != null && !dataMahasiswa[j][1].isEmpty() &&
                     dataMahasiswa[j][2] != null && !dataMahasiswa[j][2].isEmpty() &&
                     dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty()) {
-                System.out.printf(ANSI_BLUE + "| %-4d | %-20s | %-12s | %-20s | %-48s |%n",
+                System.out.printf("| %-4d | %-37s | %-12s | %-20s | %-48s |%n",
                         (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
                         dataMahasiswa[j][2], dataMahasiswa[j][3]);
             }
             System.out.println(
-                    "========================================================================================================================"
-                            + ANSI_RESET);
+                    "========================================================================================================================================");
         }
+
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
         inputAgain = sc.nextLine();
         if (inputAgain.equalsIgnoreCase("t")) {
@@ -555,17 +570,17 @@ public class Siakad {
                 selectedUser = userData[pilihan + 1];
                 System.out.println(ANSI_BLUE + "\nData yang tersedia untuk pengguna " + selectedUser[2] + ":");
                 System.out.println(
-                        "===================================================================================================================================");
-                System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-8s | %-15s|\n",
+                        "===============================================================================================================================================");
+                System.out.printf("| %-15s | %-13s | %-29s | %-12s | %-12s | %-10s | %-8s | %-15s|\n",
                         "Username", "Password", "Nama Lengkap", "NIM", "No Telepon", "Agama", "Jenis Kelamin",
                         "Tanggal Lahir");
                 System.out.println(
-                        "===================================================================================================================================");
-                System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-8s | %-15s|\n",
+                        "===============================================================================================================================================");
+                System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-13s | %-15s|\n",
                         selectedUser[0], selectedUser[1], selectedUser[2], selectedUser[3],
                         selectedUser[4], selectedUser[5], selectedUser[6], selectedUser[7]);
                 System.out.println(
-                        "==================================================================================================================================="
+                        "==============================================================================================================================================="
                                 + ANSI_RESET);
                 System.out.println("Keterangan : ");
                 System.out.println("0. Username");
@@ -590,19 +605,19 @@ public class Siakad {
                 // menampilkan data pengguna
                 System.out.println(ANSI_BLUE + "\nData Pengguna Baru " + selectedUser[2] + ":");
                 System.out.println(
-                        "===================================================================================================================================");
-                System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-8s | %-15s|\n", "Username",
+                        "===============================================================================================================================================");
+                System.out.printf("| %-15s | %-13s | %-29s | %-12s | %-12s | %-10s | %-8s | %-15s|\n", "Username",
                         "Password", "Nama Lengkap", "NIM", "No Telepon", "Agama", "Jenis Kelamin", "Tanggal Lahir");
                 System.out.println(
-                        "===================================================================================================================================");
+                        "===============================================================================================================================================");
                 for (int i = 2; i < userData.length; i++) {
-                    System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-8s | %-15s|\n",
+                    System.out.printf("| %-15s | %-13s | %-20s | %-12s | %-12s | %-10s | %-13s | %-15s|\n",
                             selectedUser[0], selectedUser[1], selectedUser[2], selectedUser[3],
                             selectedUser[4], selectedUser[5], selectedUser[6], selectedUser[7]);
                     break;
                 }
                 System.out.println(
-                        "==================================================================================================================================="
+                        "==============================================================================================================================================="
                                 + ANSI_RESET);
             }
             System.out.println();
@@ -620,26 +635,19 @@ public class Siakad {
     }
 
     static void cetakKHS(String username, String password) {
-        int indeksMahasiswa = 2;
-        // mengambil indeks mahasiswa dari data user
-        for (int i = 2; i < userData.length; i++) {
-            if (userData[i][0].equalsIgnoreCase(username) && userData[i][1].equals(password)) {
-                indeksMahasiswa = i;
-                break;
-            }
-        }
+        int indeksMahasiswa = indexUser;
 
         // mengecek apakah indeks mahasiswa ditemukan
         if (indeksMahasiswa < 2) {
             System.out.println("Data mahasiswa tidak ditemukan");
             return;
         }
-        
+
         if (indeksMahasiswa >= 2 && userData[indeksMahasiswa].length == 8) {
             System.out.println(
-                    "========================================================================================");
+                    ANSI_BLUE +"========================================================================================");
             System.out.println(
-                    "|                                   Kartu Hasil Studi (KHS                             |");
+                    "|                                   Kartu Hasil Studi (KHS)                             |");
             System.out.println(
                     "========================================================================================");
             System.out.println("Nama            : " +
@@ -705,13 +713,13 @@ public class Siakad {
                 "Hendra Pradibta, S.E., M.Sc." };
         boolean inginCariLagi = true;
         while (inginCariLagi) {
-            System.out.println("===============================================================");
+            System.out.println(ANSI_BLUE + "===============================================================");
             System.out.printf("%-15s | %-15s%n", "Mata Kuliah", "Dosen Pengampu");
             System.out.println("===============================================================");
             for (int i = 0; i < matkul.length; i++) {
                 System.out.printf("%-15s | %-15s%n", matkul[i], dosen[i]);
             }
-            System.out.println("===============================================================");
+            System.out.println("===============================================================" + ANSI_RESET);
             System.out.print("Masukkan matkul yang ingin dicari : ");
             String inputMatkul = sc.next();
             String hasilHari = " ";
