@@ -147,7 +147,7 @@ public class Siakad {
 
     static void inputDataMahasiswa() {
         int i = 0;
-        String[][] dataMahasiswa = new String[4][4];
+        String[][] dataMahasiswa = new String[4][8];
         String[] jurusan = { "Teknologi Informasi", "Teknik Elektro", "Teknik Sipil" };
         String[][] prodi = {
                 { "D4 Teknik Informatika", "D4 Sistem Informasi Bisnis", "D2 Pengembangan Piranti Lunak Situs" },
@@ -178,6 +178,14 @@ public class Siakad {
             int inputProdi = sc.nextInt();
             dataMahasiswa[i][3] = prodi[inputJurusan][--inputProdi];
             sc.nextLine();
+            System.out.print("Nomor Telepon   : ");
+            dataMahasiswa[i][4] = sc.nextLine();
+            System.out.print("Agama         : ");
+            dataMahasiswa[i][5] = sc.nextLine();
+            System.out.print("Jenis Kelamin (L/P): ");
+            dataMahasiswa[i][6] = sc.nextLine();
+            System.out.print("Tanggal Lahir (dd/mm/yy): ");
+            dataMahasiswa[i][7] = sc.nextLine();
             i++;
             System.out.print("Apakah anda ingin melanjutkan input data mahasiswa lain? (y/t) : ");
             inputData = sc.nextLine();
@@ -198,23 +206,27 @@ public class Siakad {
 
         System.out.println("Daftar mahasiswa yang berhasil terinput:");
         System.out.println(ANSI_BLUE
-                + "========================================================================================================================================");
-        System.out.printf("| %-4s | %-37s | %-12s | %-20s | %-48s |%n",
-                "No", "Nama", "NIM", "Jurusan", "Program Studi");
+                + "======================================================================================================================================================================================================");
+        System.out.printf("| %-4s | %-37s | %-12s | %-20s | %-48s | %-13s | %-10s | %-13s | %-13s |\n",
+                "No", "Nama", "NIM", "Jurusan", "Program Studi" , "Nomor Telepon", "Agama", "Jenis Kelamin", "Tanggal Lahir");
         System.out.println(ANSI_BLUE
-                + "========================================================================================================================================");
+                + "======================================================================================================================================================================================================");
 
         for (int j = 0; j < i; j++) {
             if (dataMahasiswa[j][0] != null && !dataMahasiswa[j][0].isEmpty() &&
                     dataMahasiswa[j][1] != null && !dataMahasiswa[j][1].isEmpty() &&
                     dataMahasiswa[j][2] != null && !dataMahasiswa[j][2].isEmpty() &&
-                    dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty()) {
-                System.out.printf("| %-4d | %-37s | %-12s | %-20s | %-48s |%n",
+                    dataMahasiswa[j][3] != null && !dataMahasiswa[j][3].isEmpty() &&
+                    dataMahasiswa[j][4] != null && !dataMahasiswa[j][4].isEmpty() &&
+                    dataMahasiswa[j][5] != null && !dataMahasiswa[j][5].isEmpty() &&
+                    dataMahasiswa[j][6] != null && !dataMahasiswa[j][6].isEmpty() &&
+                    dataMahasiswa[j][7] != null && !dataMahasiswa[j][7].isEmpty()) {
+                System.out.printf("| %-4d | %-37s | %-12s | %-20s | %-48s | %-13s | %-10s | %-13s | %-13s |\n",
                         (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
-                        dataMahasiswa[j][2], dataMahasiswa[j][3]);
+                        dataMahasiswa[j][2], dataMahasiswa[j][3], dataMahasiswa[j][4], dataMahasiswa[j][5], dataMahasiswa[j][6], dataMahasiswa[j][7]);
             }
             System.out.println(
-                    "========================================================================================================================================");
+                    "======================================================================================================================================================================================================"+ ANSI_RESET);
         }
 
         System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
