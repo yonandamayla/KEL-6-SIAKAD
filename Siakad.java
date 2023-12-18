@@ -324,11 +324,11 @@ public class Siakad {
                 System.out.println();
                 System.out.println("Mata Kuliah: " + matkul[i]);
                 System.out.println(ANSI_BLUE +
-                        "================================================================================================");
+                        "===========================================================================================");
                 System.out.println(
-                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata | Nilai Huruf | IPK |");
+                        "Nama Mahasiswa     \t\t\t| Nilai UTS | Nilai UAS | Rata-rata | Nilai Huruf |");
                 System.out.println(
-                        "================================================================================================"
+                        "==========================================================================================="
                                 + ANSI_RESET);
                 for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
                     if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
@@ -336,18 +336,41 @@ public class Siakad {
                     }
                     double rataRata = hitungRataRata(inputNilai[k][i]);
                     String nilaiHuruf = konversiNilaiHuruf(rataRata);
-                    double nilaiMatkulAngka = konversiNilaiAngka(nilaiHuruf);
+                    double nilaiMatkulAngka = konversiNilaiAngka(nilaiHuruf, rataRata);
+                    double IPK = hitungIPK(rataRata);
                     totalNilai += nilaiMatkulAngka * sksMatkul[i];
                     totalSKS += sksMatkul[i];
-                    double ipk = totalNilai / totalSKS;
-                    System.out.printf(ANSI_BLUE + "%-39s | %-9d | %-9d | %-9.3f | %-11s | %-3s | \n", userData[j][2],
-                            inputNilai[k][i][0], inputNilai[k][i][1], rataRata, nilaiHuruf, ipk);
+                    System.out.printf(ANSI_BLUE + "%-39s | %-9d | %-9d | %-9.3f | %-11s |\n", userData[j][2],
+                            inputNilai[k][i][0], inputNilai[k][i][1], rataRata, nilaiHuruf);
                     k++;
                 }
                 System.out.println(
-                        "================================================================================================"
+                        "==========================================================================================="
                                 + ANSI_RESET);
                 System.out.println();
+                System.out.println("IPK");
+                System.out.println("Daftar Nilai:");
+                System.out.println("Mata Kuliah: " + matkul[i]);
+                System.out.println(ANSI_BLUE +
+                        "===============================================");
+                System.out.println(
+                        "Nama Mahasiswa     \t\t\t| IPK |");
+                System.out.println(
+                        "==============================================="
+                                + ANSI_RESET);
+                for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
+                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
+                        continue;
+                    }
+                    // totalSKS += sksMatkul[i];
+                    double rataRata = (inputNilai[k][i][0] + inputNilai[k][i][1]) / 2.0;
+                    double IPK = hitungIPK(rataRata);
+                    System.out.printf(ANSI_BLUE + "%-39s | %-3s |\n", userData[j][2], IPK);
+                    k++;
+                }
+                System.out.println(
+                        "==============================================="
+                                + ANSI_RESET);
             }
             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
             inputAgain = sc.nextLine();
@@ -469,7 +492,6 @@ public class Siakad {
             wantsToLogout = true;
             isLoggedDosen = false;
         }
-        input.close();
     }
 
     static double hitungRataRata(int[] listNilai) {
@@ -480,46 +502,47 @@ public class Siakad {
         return total / ((double) listNilai.length);
     }
 
+    static double hitungIPK(double rataRata) {
+        if (rataRata >= 85) {
+            return 4.0;
+        } else if (rataRata >= 80) {
+            return 3.0;
+        } else if (rataRata >= 60) {
+            return 2.0;
+        } else if (rataRata >= 50) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
     static String konversiNilaiHuruf(double rataRata) {
         if (rataRata >= 85) {
             return "A";
         } else if (rataRata >= 80) {
-            return "B+";
-        } else if (rataRata >= 73) {
             return "B";
-        } else if (rataRata >= 65) {
-            return "C+";
-        } else if (rataRata >= 50) {
+        } else if (rataRata >= 60) {
             return "C";
-        } else if (rataRata >= 39) {
+        } else if (rataRata >= 50) {
             return "D";
         } else {
             return "E";
         }
     }
 
-    static double konversiNilaiAngka(String nilaiMatkulHuruf) {
+    static double konversiNilaiAngka(String nilaiMatkulHuruf, double rataRata) {
         double nilaiMatkulAngka;
-        switch (nilaiMatkulHuruf) {
-            case "A":
-                nilaiMatkulAngka = 4.0;
-                break;
-            case "B+":
-                nilaiMatkulAngka = 3.5;
-                break;
-            case "B":
-                nilaiMatkulAngka = 3.0;
-                break;
-            case "C+":
-                nilaiMatkulAngka = 2.5;
-                break;
-            case "C":
-                nilaiMatkulAngka = 2.0;
-                break;
-            default:
-                nilaiMatkulAngka = 0.0;
+        if (rataRata >= 85) {
+            return 4.0;
+        } else if (rataRata >= 80) {
+            return 3.0;
+        } else if (rataRata >= 60) {
+            return 2.0;
+        } else if (rataRata >= 50) {
+            return 1.0;
+        } else {
+            return 0.0;
         }
-        return nilaiMatkulAngka;
     }
 
     static void menuMahasiswa() {
@@ -583,7 +606,8 @@ public class Siakad {
 
             // Memperbarui data pengguna
             if (indeksMahasiswa >= 2 && userData[indeksMahasiswa].length == 8) {
-                System.out.println(ANSI_BLUE + "\nData yang tersedia untuk pengguna " + userData[indeksMahasiswa][2] + " :");
+                System.out.println(
+                        ANSI_BLUE + "\nData yang tersedia untuk pengguna " + userData[indeksMahasiswa][2] + " :");
                 System.out.println(
                         "=======================================================================================================================================");
                 System.out.printf("| %-16s | %-13s | %-22s | %-12s | %-12s | %-10s | %-8s | %-14s|\n",
@@ -592,7 +616,9 @@ public class Siakad {
                 System.out.println(
                         "=======================================================================================================================================");
                 System.out.printf("| %-16s | %-13s | %-22s | %-12s | %-12s | %-10s | %-13s | %-14s|\n",
-                        userData[indeksMahasiswa][0], userData[indeksMahasiswa][1], userData[indeksMahasiswa][2], userData[indeksMahasiswa][3], userData[indeksMahasiswa][4], userData[indeksMahasiswa][5], userData[indeksMahasiswa][6], userData[indeksMahasiswa][7]);
+                        userData[indeksMahasiswa][0], userData[indeksMahasiswa][1], userData[indeksMahasiswa][2],
+                        userData[indeksMahasiswa][3], userData[indeksMahasiswa][4], userData[indeksMahasiswa][5],
+                        userData[indeksMahasiswa][6], userData[indeksMahasiswa][7]);
                 System.out.println(
                         "======================================================================================================================================="
                                 + ANSI_RESET);
@@ -626,7 +652,9 @@ public class Siakad {
                         "=======================================================================================================================================");
                 for (int i = 2; i < userData[indeksMahasiswa].length; i++) {
                     System.out.printf("| %-16s | %-13s | %-22s | %-12s | %-12s | %-10s | %-13s | %-14s|\n",
-                            userData[indeksMahasiswa][0], userData[indeksMahasiswa][1], userData[indeksMahasiswa][2], userData[indeksMahasiswa][3], userData[indeksMahasiswa][4], userData[indeksMahasiswa][5], userData[indeksMahasiswa][6], userData[indeksMahasiswa][7]);
+                            userData[indeksMahasiswa][0], userData[indeksMahasiswa][1], userData[indeksMahasiswa][2],
+                            userData[indeksMahasiswa][3], userData[indeksMahasiswa][4], userData[indeksMahasiswa][5],
+                            userData[indeksMahasiswa][6], userData[indeksMahasiswa][7]);
                     break;
                 }
                 System.out.println(
@@ -649,6 +677,7 @@ public class Siakad {
 
     static void cetakKHS(String username, String password) {
         int indeksMahasiswa = indexUser;
+
         // mengecek apakah indeks mahasiswa ditemukan
         if (indeksMahasiswa < 2) {
             System.out.println("Data mahasiswa tidak ditemukan");
@@ -695,14 +724,17 @@ public class Siakad {
             // Hitung dan cetak IPK
             double totalNilai = 0;
             int totalSKS = 0;
-            for (int i = 0; i < matkul.length; i++) {
+            for (int i = 0, k = 0; i < matkul.length && k < jumlahMahasiswa; i++) {
                 if (inputNilai[indeksMahasiswa - 2][i][0] != 0) {
-                    totalNilai += konversiNilaiAngka(
-                            konversiNilaiHuruf(hitungRataRata(inputNilai[indeksMahasiswa - 2][i])))
-                            * sksMatkul[i];
+                    double rataRata = hitungRataRata(inputNilai[k][i]);
+                    String nilaiHuruf = konversiNilaiHuruf(rataRata);
+                    double nilaiMatkulAngka = konversiNilaiAngka(nilaiHuruf, rataRata);
+                    double IPK = hitungIPK(rataRata);
+                    totalNilai += nilaiMatkulAngka * sksMatkul[i];
                     totalSKS += sksMatkul[i];
                 }
             }
+
             double ipk = totalSKS > 0 ? totalNilai / totalSKS : 0;
 
             System.out
