@@ -224,13 +224,15 @@ public class Siakad {
                     dataMahasiswa[j][5] != null && !dataMahasiswa[j][5].isEmpty() &&
                     dataMahasiswa[j][6] != null && !dataMahasiswa[j][6].isEmpty() &&
                     dataMahasiswa[j][7] != null && !dataMahasiswa[j][7].isEmpty()) {
-                System.out.printf(ANSI_BLUE + "| %-4d | %-37s | %-12s | %-20s | %-48s | %-13s | %-10s | %-13s | %-13s |\n",
+                System.out.printf(
+                        ANSI_BLUE + "| %-4d | %-37s | %-12s | %-20s | %-48s | %-13s | %-10s | %-13s | %-13s |\n",
                         (j + 1), dataMahasiswa[j][0], dataMahasiswa[j][1],
                         dataMahasiswa[j][2], dataMahasiswa[j][3], dataMahasiswa[j][4], dataMahasiswa[j][5],
                         dataMahasiswa[j][6], dataMahasiswa[j][7]);
             }
             System.out.println(
-                    ANSI_BLUE + "======================================================================================================================================================================================================"
+                    ANSI_BLUE
+                            + "======================================================================================================================================================================================================"
                             + ANSI_RESET);
         }
 
@@ -317,6 +319,8 @@ public class Siakad {
     static void pelaporanNilai() {
         double totalNilai = 0;
         int totalSKS = 0;
+        boolean nilaiTerisi = false;
+
         while (true) {
             for (int i = 0; i < matkul.length; i++) {
                 if (inputNilai[0][i][0] == 0) { // berfungsi untuk check apakah data nilai sudah diinputkan pada
@@ -333,7 +337,8 @@ public class Siakad {
                         "==========================================================================================="
                                 + ANSI_RESET);
                 for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
-                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
+                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data
+                                                   // mahasiswa
                         continue;
                     }
                     double rataRata = hitungRataRata(inputNilai[k][i]);
@@ -361,7 +366,8 @@ public class Siakad {
                         "==============================================="
                                 + ANSI_RESET);
                 for (int j = 0, k = 0; j < userData.length && k < jumlahMahasiswa; j++) {
-                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data mahasiswa
+                    if (userData[j].length != 8) { // berfungsi untuk check apakah userData[j] merupakan data
+                                                   // mahasiswa
                         continue;
                     }
                     // totalSKS += sksMatkul[i];
@@ -373,8 +379,9 @@ public class Siakad {
                 System.out.println(
                         "==============================================="
                                 + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "Nilai berhasil Dipublish" + ANSI_RESET);
+                System.out.println();
             }
-            System.out.println(ANSI_GREEN + "Nilai berhasil Dipublish" + ANSI_RESET);
             System.out.println();
             System.out.print("Apakah anda ingin memilih menu lain? (y/t) = ");
             inputAgain = sc.nextLine();
@@ -463,6 +470,7 @@ public class Siakad {
                     i++;
                 }
 
+                // mencetak daftar nilai mahasiswa yang berhasil terinput
                 System.out.println(
                         "==========================================================================================");
                 System.out.println("Mata Kuliah : " + inputMatkul + "\t\t\t\t\t\t\t\t\t  |");
