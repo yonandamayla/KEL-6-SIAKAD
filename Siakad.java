@@ -163,7 +163,7 @@ public class Siakad {
             dataMahasiswa[i][0] = sc.nextLine();
             System.out.print("NIM                           : ");
             dataMahasiswa[i][1] = sc.nextLine();
-            System.out.println("Jurusan                     : ");
+            System.out.println("Jurusan                      : ");
             for (int j = 0; j < jurusan.length; j++) {
                 System.out.println((j + 1) + ". " + jurusan[j]);
             }
@@ -171,7 +171,7 @@ public class Siakad {
             int inputJurusan = sc.nextInt();
             dataMahasiswa[i][2] = jurusan[--inputJurusan];
             sc.nextLine();
-            System.out.println("Prodi                       : ");
+            System.out.println("Prodi                        : ");
             for (int j = 0; j < prodi[inputJurusan].length; j++) {
                 System.out.println((j + 1) + ". " + prodi[inputJurusan][j]);
             }
@@ -192,7 +192,6 @@ public class Siakad {
             inputData = sc.nextLine();
 
         } while (inputData.equalsIgnoreCase("y"));
-
         // Bubble sort based on names (dataMahasiswa[i][0]) / mengurutkan data mahasiswa
         // berdasarkan abjad nama
         for (int k = 0; k < i - 1; k++) {
@@ -206,7 +205,7 @@ public class Siakad {
             }
         }
 
-        System.out.println("Daftar mahasiswa yang berhasil terinput:");
+        System.out.println(ANSI_BLUE + "Daftar mahasiswa yang berhasil terinput:");
         System.out.println(ANSI_BLUE
                 + "======================================================================================================================================================================================================");
         System.out.printf(ANSI_BLUE + "| %-4s | %-37s | %-12s | %-20s | %-48s | %-13s | %-10s | %-13s | %-13s |\n",
